@@ -22,6 +22,11 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home'; // Default to 'home' if n
         header.classList.toggle('responsive');
         addPrestasi.classList.toggle('responsive'); 
     }
+
+    function redirectToFormPrestasi() {
+    window.location.href = 'indexmhs.php?page=formprestasi';
+}
+
 </script>
 
 </head>
@@ -39,6 +44,9 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home'; // Default to 'home' if n
                 break;
             case 'prestasi':
                 include('../app/Views/prestasi.php');
+                break;
+            case 'formprestasi':
+                include('../app/Views/formprestasi.php'); 
                 break;
             default:
                 echo '<div>Page not found.</div>';
