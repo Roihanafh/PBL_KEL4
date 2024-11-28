@@ -1,8 +1,21 @@
+/* Warna Untuk Font/Element/dan lainnya */
+/* Biru: #244282 */
+.uwb{
+    background-color: #244282;
+    color: white;
+}
+/* Merah: #993A36 */
+/* Kuning: #FFC030 */
+/* Kuning keorenan: #FBA026 */
+/* Putih Dikit Gelap: #EEEEEE (Background) */
+
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: Poppins;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background-color: #EEEEEE;
 }
 
 /* Navbar Section */
@@ -10,9 +23,9 @@ body {
     position: sticky; 
     top: 0; 
     z-index: 1000; 
-    padding: 10px 20px;
+    padding: 10px 30px;
     background-color: #e4e4e4;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .navbar img {
@@ -24,22 +37,65 @@ body {
     color: #000;
     margin: 0 10px;
     font-weight: bold;
+    transition: 0.4s;
 }
 
 .navbar a:hover {
-    font-style: italic; 
+    font-size: 17px;
 }
 
-.navbar a.login {
-    padding: 8px 16px;
-    border: 2px solid #244282;
+/* .navbar a.login {
+    padding: 8px 24px;
     border-radius: 5px;
     color: #244282;
     transition: 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .navbar a.login:hover {
     background-color: #244282;
     color: #fff;
+} */
+
+.login{
+    padding: 8px 24px;
+    border-radius: 5px;
+    border: none;
+    color: #244282;
+    transition: 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
+    font-weight: bold;
+}
+
+.login:hover {
+    background-color: #244282;
+    color: #fff;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    color: black;
+    padding: 0px 20px 0px 0px;
+    font-size: 28px;
+}
+
+.logo img{
+    
+}
+
+/* Halaman Beranda */
+
+.berandakiri{
+    width: 50vw;
+}
+
+.si{
+    color: #244282;
+    width: 500px;
+}
+
+.ps{
+    color: #FFC030;
 }
 
