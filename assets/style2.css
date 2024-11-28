@@ -1,0 +1,45 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Navbar Section */
+.navbar {
+    position: sticky; 
+    top: 0; 
+    z-index: 1000; 
+    padding: 10px 20px;
+    background-color: #e4e4e4;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar img {
+    height: 50px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #000;
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    font-style: italic; 
+}
+
+.navbar a.login {
+    padding: 8px 16px;
+    border: 2px solid #244282;
+    border-radius: 5px;
+    color: #244282;
+    transition: 0.3s;
+}
+
+.navbar a.login:hover {
+    background-color: #244282;
+    color: #fff;
+}
+
