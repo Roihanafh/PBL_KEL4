@@ -28,17 +28,17 @@
             <b>Lencana</b>
         </div>
         <div>
-            <a href="#">Beranda</a>
-            <a href="">Telusuri Prestasi</a>
-            <a href="#">Tentang Kami</a>
-            <a href="#">Kontak</a>
+            <a href="#beranda">Beranda</a>
+            <a href="#telusuri">Telusuri Prestasi</a>
+            <a href="#tentang">Tentang Kami</a>
+            <a href="#kontak">Kontak</a>
             <!-- <a href="#" class="login">Login</a> -->
             <button class="login" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Login</button>
         </div>
     </div>
     <!-- isi landing page -->
     <!-- Beranda -->
-    <div class="container-fluid">
+    <div class="container-fluid" id="beranda">
         <div class="beranda">
             <div class="berandakiri">
                 <div class="isibk">
@@ -59,6 +59,155 @@
             </div>
         </div>
     </div>
+
+    <!-- Telusuri Prestasi -->
+
+    <div class="container-fluid">
+        <div class="telusuriprestasi" id="telusuri">
+            <div class="raihpres">
+                <p class="ps2">Prestasi</p>
+                <h1>Prestasi <span class="ps2">yang Telah di Raih oleh</span> Mahasiswa</h1>
+            </div>
+
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-bordered">
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Judul Kompetisi</th>
+                                <th>Tanggal</th>
+                                <th>Peringkat</th>
+                                <th>Tingkat</th>
+                                <th>Kategori</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="ganjil">1</td>
+                                <td>Ahmad</td>
+                                <td class="ganjil">Kompetisi Coding Nasional</td>
+                                <td>2024-12-01</td>
+                                <td class="ganjil">1</td>
+                                <td>Nasional</td>
+                                <td class="ganjil">Teknologi</td>
+                            </tr>
+                            <tr>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                            </tr>
+                            <tr>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                            </tr>
+                            <tr>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                            </tr>
+                            <tr>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                            </tr>
+                            <tr>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                            </tr>
+                            <tr>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                            </tr>
+                            <tr>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                            </tr>
+                            <tr>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                            </tr>
+                            <tr>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                            </tr>
+                            <tr>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                            </tr>
+                            <tr>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                            </tr>
+                            <tr>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                                <td>-</td>
+                                <td class="ganjil">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 

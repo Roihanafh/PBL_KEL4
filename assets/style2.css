@@ -15,6 +15,11 @@ body {
     background-color: #EEEEEE;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+
 /* popUp */
 
 .uwb{
@@ -77,7 +82,7 @@ body {
 
 /* Halaman Beranda */
 .beranda{
-    height: 92vh;
+    height: 93vh;
     display: flex;
 
 }
@@ -141,7 +146,7 @@ body {
 }
 
 .lomba{
-    height: 400px;
+    height: 300px;
     width: 300px;
     object-fit: fil;
     background-color: red;
@@ -157,6 +162,56 @@ body {
 .lomba2{
     margin-bottom: 150px;
 }
+
+
+/* Telusuri Prestasi  */
+
+.raihpres{
+    color: #FFC030;
+    margin: 100px;
+    margin-bottom: 50px;
+}
+
+.raihpres p{
+    font-weight: bold;
+}
+
+.raihpres h1{
+    width: 600px;
+    font-weight: bold;
+    font-size: 42px;
+    margin-bottom: 25px;
+}
+
+.ps2{
+    color: #244282;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+thead{
+    background-color: #244282;
+    color: #fff;
+
+}
+
+.table-bordered{
+    border: 1px solid black;
+}
+
+#beranda,
+#telusuri {
+    scroll-margin-top: 150px; /* Sesuaikan dengan tinggi navbar Anda */
+}
+
+
 
 
 
