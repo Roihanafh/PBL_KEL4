@@ -1,13 +1,10 @@
 /* Warna Untuk Font/Element/dan lainnya */
 /* Biru: #244282 */
-.uwb{
-    background-color: #244282;
-    color: white;
-}
 /* Merah: #993A36 */
 /* Kuning: #FFC030 */
 /* Kuning keorenan: #FBA026 */
 /* Putih Dikit Gelap: #EEEEEE (Background) */
+
 
 
 body {
@@ -17,6 +14,13 @@ body {
     box-sizing: border-box;
     background-color: #EEEEEE;
 }
+
+/* popUp */
+
+.uwb{
+    background-color: #244282;
+}
+
 
 /* Navbar Section */
 .navbar {
@@ -73,15 +77,27 @@ body {
 
 /* Halaman Beranda */
 .beranda{
-    height: auto;
+    height: 92vh;
     display: flex;
+
+}
+
+.container-fluid{
+    padding: 0px;
+    margin: 0px;
 }
 
 /* Beranda Kiri */
 .si{
     color: #244282;
-    width: 500px;
+    width: 600px;
     font-weight: bold;
+    font-size: 48px;
+    margin-bottom: 25px;
+}
+
+.deskripsi{
+    width: 500px;
 }
 
 .ps{
@@ -89,18 +105,60 @@ body {
 }
 
 .berandakiri{
-    width: 30vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.isibk{
+    position: absolute;
+    margin-left: 100px;
 }
 /* Beranda Kanan */
 
 .berandakanan{
-    background-color: red;
+    width: 100vw;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    pointer-events: none;
 }
 
-.abstrak{
-    width: 50%;
-    
+.abstract{
+    width: 100%;
+    height: 200vh;
+    position: absolute;
 }
+
+.imglomba{
+    position: absolute;
+    display: flex;
+    pointer-events: none;
+    right: 50px;
+    height: 100vh;
+    align-items: center;
+}
+
+.lomba{
+    height: 400px;
+    width: 300px;
+    object-fit: fil;
+    background-color: red;
+    border-radius: 20px;
+    border: 4px solid #EEEEEE;
+}
+
+.lomba1{
+    margin-right: 20px;
+    margin-top: 150px;
+}
+
+.lomba2{
+    margin-bottom: 150px;
+}
+
+
 
 
 

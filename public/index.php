@@ -41,16 +41,21 @@
     <div class="container-fluid">
         <div class="beranda">
             <div class="berandakiri">
-
-                <div class="h1 si">
-                    SISTEM <br>INFORMASI <span class="ps">PRESTASI MAHASISWA</span>
+                <div class="isibk">
+                    <div class="h1 si">
+                        SISTEM <br>INFORMASI <span class="ps">PRESTASI MAHASISWA</span>
+                    </div>
+                    <p class="deskripsi">
+                        Mahasiswa Politeknik Negeri Malang disiapkan untuk dapat bekerja maupun menjadi wirausaha yang sukses. Untuk itu, aktif dalam berbagai kegiatan lomba merupakan salah satu cara untuk mengasah kemampuan dan bakat para mahasiswa.
+                    </p>
                 </div>
-                <p class="deskripsi">
-                    Mahasiswa Politeknik Negeri Malang disiapkan untuk dapat bekerja maupun menjadi wirausaha yang sukses. Untuk itu, aktif dalam berbagai kegiatan lomba merupakan salah satu cara untuk mengasah kemampuan dan bakat para mahasiswa.
-                </p>
             </div>
             <div class="berandakanan">
-
+                <img class="abstract" src="../assets/abstract.png" alt="Gambar Beranda">
+                <div class="imglomba">
+                    <img src="../assets/lomba1.jpeg" alt="Lomba" class="lomba lomba1">
+                    <img src="../assets/lomba2.jpeg" alt="Lomba" class="lomba lomba2">
+                </div>
             </div>
         </div>
     </div>
@@ -91,7 +96,6 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary uwb">Sign In</button>
                 </div>
             </div>
