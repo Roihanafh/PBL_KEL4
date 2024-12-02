@@ -148,7 +148,7 @@ html {
 .lomba{
     height: 300px;
     width: 300px;
-    object-fit: fil;
+    object-fit: fill;
     background-color: red;
     border-radius: 20px;
     border: 4px solid #EEEEEE;
@@ -210,6 +210,70 @@ thead{
 #telusuri {
     scroll-margin-top: 150px; /* Sesuaikan dengan tinggi navbar Anda */
 }
+
+td.ganjil{
+    background-color: #dadada;
+}
+
+/* Tentang Kami */
+
+.about {
+    position: relative; 
+    height: 93vh;
+    background-color: #244282; 
+    overflow: hidden; 
+}
+
+.about::before {
+    content: ""; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/gedung.jpeg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.1; 
+    z-index: 1; 
+}
+
+.about-content {
+    position: relative; 
+    z-index: 2; 
+    color: white; 
+    margin: 100px;
+    font-weight: bold;
+    width: 500px;
+}
+
+.about-content h1{
+    font-weight: 700;
+}
+
+.about-content p{
+    font-size: 18px;
+}
+
+.imgtk{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    right: 100px;
+    top: 0;
+    gap: 50px;
+    height: 100%;
+    justify-content: center;
+}
+
+.imgtk img{
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 20px;
+    border: 3px solid #EEEEEE;
+}
+
 
 
 

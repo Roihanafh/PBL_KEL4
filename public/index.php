@@ -208,6 +208,22 @@
         </div>
     </div>
 
+    <div class="container-fluid">
+        <div class="about mt-5" id="tentang">
+            <div class="about-content">
+                <h1>Tentang Kami</h1>
+                    <p>Prodi Manajemen Informatika (DIII) Politeknik Negeri Malang berdiri pada 24 Juni 2005 berdasarkan SK Mendiknas No. 2001/D/T/2005 di bawah Jurusan Teknik Elektro. Kurikulum awalnya menyesuaikan perkembangan TI dan kebutuhan kerja, dan sejak 2006/2007 menggunakan kurikulum 5-1 (5 semester di kampus, 1 semester di industri) dengan total 120 SKS.
+                    <br><br>
+                    Pada 2022, melalui program upgrading Kemendikbudristek, Prodi Manajemen Informatika ditingkatkan menjadi Prodi Sarjana Terapan Sistem Informasi Bisnis berdasarkan SK Mendikbudristek No. 33/D/OT/2022. Prodi baru ini mulai menerima mahasiswa pada Semester Ganjil 2022/2023 di bawah Jurusan Teknologi Informasi.
+                </p>
+            </div>
+            <div class="imgtk">
+                <img src="../assets/informatika.jpeg" alt="Teknik Informatika">
+                <img src="../assets/sistem.jpg" alt="Sistem Informasi Bisnis">
+                </div>
+        </div>
+    </div>
+
 
 
 
