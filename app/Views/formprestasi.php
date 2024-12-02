@@ -100,7 +100,7 @@
 
         <!-- Buttons -->
         <div class="d-flex justify-content-end gap-3 mt-4">
-            <button type="button" class="btn btn-back" onclick="window.location.href='index.php'">Kembali</button>
+            <button type="button" class="btn btn-back" onclick="window.location.href='indexmhs.php'">Kembali</button>
             <button type="submit" class="btn btn-save">Simpan</button>
         </div>
     </form>
