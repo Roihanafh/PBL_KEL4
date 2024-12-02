@@ -124,7 +124,6 @@ table.table-bordered tbody tr:nth-child(odd) {
 ul li:hover a {
     background-color: #0F2148;
     color: white;
-    padding-left: 50px;
 }
 
 .menu-text {
