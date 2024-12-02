@@ -1,8 +1,4 @@
 <div class="sidebar">
-<div class="sidebar-logo">
-    <img src="../assets/logo_polinema.png" alt="Logo Polinema">
-    <h1 class="sidebar-title">Lencana</h1>
-</div>
     <ul>
         <li>
             <a href="javascript:void(0)" onclick="toggleSidebar()">
