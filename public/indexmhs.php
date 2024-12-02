@@ -26,7 +26,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home'; // Default to 'home' if n
     function redirectToFormPrestasi() {
     window.location.href = 'indexmhs.php?page=formprestasi';
 }
-
+        
 </script>
 
 </head>
