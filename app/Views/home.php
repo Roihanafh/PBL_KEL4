@@ -5,18 +5,23 @@ include '../config/koneksi.php';
 // Query untuk mengambil data ranking mahasiswa
 $sql = "
     SELECT 
-        ROW_NUMBER() OVER (ORDER BY SUM(P.Poin) DESC) AS Ranking,
-        M.Nama AS NamaMahasiswa,
-        COUNT(*) AS JumlahLombaDiikuti,
-        SUM(P.Poin) AS TotalPoin
+    ROW_NUMBER() OVER (ORDER BY SUM(P.Poin) DESC) AS Ranking,
+    M.Nama AS NamaMahasiswa,
+    COUNT(*) AS JumlahLombaDiikuti,
+    SUM(P.Poin) AS TotalPoin
     FROM 
         Mahasiswa M
     JOIN 
-        Prestasi P ON M.Prestasi_PrestasiId = P.PrestasiId
+        PrestasiMahasiswa PM ON M.Nim = PM.Nim  -- Menghubungkan Mahasiswa dan Prestasi melalui PrestasiMahasiswa
+    JOIN 
+        Prestasi P ON PM.PrestasiId = P.PrestasiId  -- Menghubungkan PrestasiMahasiswa dengan Prestasi
+    WHERE 
+        P.Status = 'Valid'  -- Hanya mengambil Prestasi yang statusnya 'Valid'
     GROUP BY 
         M.Nama
     ORDER BY    
-        TotalPoin DESC
+        TotalPoin DESC;
+
 ";
 
 $stmt = sqlsrv_query($conn, $sql);
