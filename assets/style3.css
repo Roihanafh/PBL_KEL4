@@ -268,3 +268,32 @@ ul li:hover a {
 .btn-back:hover {
   background-color: #bbb;
 }
+
+.btn-save {
+    background-color: #1BBC9B; 
+    border: none;
+    padding: 10px 20px; 
+    font-size: 16px; 
+    color: white;
+}
+
+.btn-save:hover {
+    background-color: #1A9B82;
+}
+
+
+.profilemhs {
+    padding: 20px;
+    margin-top: 70px;
+    margin-left: 70px; 
+    margin-right: 35px;
+    
+}
+
+.profilemhs p {
+    font-size: 30px; 
+    font-weight: bold; 
+    padding-left: 6px;
+    margin-bottom: -10px;
+}
+

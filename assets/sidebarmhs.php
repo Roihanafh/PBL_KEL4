@@ -21,5 +21,20 @@
                 <span class="menu-text">Prestasi</span>
             </a>
         </li>
+        <!-- Menu Profile -->
+        <li>
+            <a href="../public/indexmhs.php?page=profile">
+                <i class="fas fa-user"></i>
+                <span class="menu-text">Profile</span>
+            </a>
+        </li>
+
+        <!-- Menu Logout -->
+        <li>
+            <a href="">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="menu-text">Logout</span>
+            </a>
+        </li>
     </ul>
 </div>
