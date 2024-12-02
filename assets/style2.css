@@ -219,7 +219,7 @@ td.ganjil{
 
 .about {
     position: relative; 
-    height: 93vh;
+    height: 100vh;
     background-color: #244282; 
     overflow: hidden; 
 }
@@ -273,6 +273,52 @@ td.ganjil{
     border-radius: 20px;
     border: 3px solid #EEEEEE;
 }
+
+/* Kontak */
+
+.kontak{
+    color: #244282;
+    display: flex;
+    margin: 50px 0px 50px 100px;
+    position: relative;
+}
+
+.hubungi{
+    margin-right: 50px;
+    border-right: 2px solid black;
+    padding-right: 50px;
+}
+
+.wi{
+    color: black;
+}
+
+.kontak div p:first-child{
+    font-weight: bold;
+}
+
+.follow{
+    position: absolute;
+    right: 100px;
+    bottom: 5px;
+}
+
+.followlogo i{
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+/* Footer */
+footer {
+    background-color: #244282;
+    color: white;
+    position: relative;
+    bottom: 0;
+    height: 50px;
+    line-height: 50px; 
+    padding-left: 100px; 
+}
+
 
 
 

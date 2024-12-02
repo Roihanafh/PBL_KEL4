@@ -224,6 +224,37 @@
         </div>
     </div>
 
+    <div class="container-fluid">
+        <div class="kontak" id="kontak">
+            <div class="hubungi">
+                <p>Hubungi Kami</p>
+                <br>
+                <p>Alamat: <span class="wi">Soehat Jalan Remujung No 45</span></p>
+                <p>Telpon: <span class="wi">+84 1102 2703</span></p>
+                <p>Email: <span class="wi">poltek@gmail.com</span></p>
+            </div>
+            <div class="tautan">
+                <p>Tautan Penting</p>
+                <br>
+                <p>Panduan Pendaftaran</p>
+                <p>FAQ</p>
+                <p>Kebijakan Privasi</p>    
+            </div>
+            <div class="follow">
+            <b>Ikuti Kami</b>
+            <div class="followlogo">
+                <i class="bi bi-facebook"></i>
+                <i class="bi bi-linkedin"></i>
+                <i class="bi bi-twitter"></i>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Polinema © 2024. All Rights Reserved</p>
+    </footer>
+
 
 
 
