@@ -1,19 +1,27 @@
 <?php
-// Konfigurasi koneksi database
-$serverName = "DESKTOP-VHL7MV3"; // Jangan lupa diganti punya masing" :)
-$connectionOptions = [
-    "Database" => "PBL_Lencana", // Nama database
-    "Uid" => "",    // Username SQL Server
-    "PWD" => ""     // Password SQL Server
+$servername = "RAUDHIL-FN";
+$uid = ""; // masukkan username di sini
+$password = ""; // masukkan password di sini
+$database = "PBL_Lencana"; // nama database yang digunakan
+
+// Konfigurasi koneksi
+$connection = [
+    "Database" => $database,
+    "UID" => $uid,
+    "PWD" => $password,
+    "Encrypt" => "No", // Atur enkripsi menjadi opsional atau 'No' jika tidak ingin enkripsi
+    "TrustServerCertificate" => true // Opsi jika sertifikat tidak tepercaya
 ];
 
-// Membuat koneksi
-$conn = sqlsrv_connect($serverName, $connectionOptions);
+// Mencoba menghubungkan ke server SQL
+$conn = sqlsrv_connect($servername, $connection);
 
-// Cek koneksi
-if ($conn === false) {
+// Mengecek koneksi
+if (!$conn) {
     die(print_r(sqlsrv_errors(), true)); // Menampilkan pesan error jika koneksi gagal
+} else {
+    // echo 'Koneksi berhasil'; // Pesan jika koneksi berhasil
 }
 
-echo "Koneksi berhasil ke database PBL_Lencana!";
+
 ?>

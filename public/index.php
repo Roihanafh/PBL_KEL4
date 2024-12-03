@@ -272,6 +272,7 @@
 
 
     <!-- Popup -->
+    <form action="../login.php" method="POST">
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -283,20 +284,21 @@
                     <form>
                         <div class="mb-3">
                             <label for="recipient-name" class="col-form-label">NIM/NIP</label>
-                            <input type="text" class="form-control" id="recipient-name">
+                            <input type="text" class="form-control" id="username" name="username" required>
                         </div>
                         <div class="mb-3">
                             <label for="message-text" class="col-form-label">Password</label>
-                            <input type="password" class="form-control" id="recipient-name">
+                            <input type="password" class="form-control" id="password" name="password" required>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary uwb">Sign In</button>
+                    <button type="submit" class="btn btn-primary uwb">Sign In</button>
                 </div>
             </div>
         </div>
     </div>
+    </form>
 
 
 
