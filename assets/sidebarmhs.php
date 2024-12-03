@@ -31,7 +31,7 @@
 
         <!-- Menu Logout -->
         <li>
-            <a href="">
+            <a href="../public/index.php">
                 <i class="fas fa-sign-out-alt"></i>
                 <span class="menu-text">Logout</span>
             </a>

@@ -33,5 +33,13 @@
                 <span class="menu-text">Data Mahasiswa</span>
             </a>
         </li>
+
+         <!-- Menu Logout -->
+         <li>
+            <a href="../public/index.php">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="menu-text">Logout</span>
+            </a>
+        </li>
     </ul>
 </div>
