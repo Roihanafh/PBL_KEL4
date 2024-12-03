@@ -5,7 +5,7 @@
 </div>
     <ul>
         <li>
-            <a href="javascript:void(0)" onclick="toggleSidebar()">
+            <a href="javascript:void(0)" onclick="">
                 <i class="fas fa-bars"></i>
             </a>
         </li>
