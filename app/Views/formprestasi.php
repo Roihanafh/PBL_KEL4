@@ -33,8 +33,8 @@
                 <input type="text" class="form-control" id="namaMahasiswa" placeholder="Nama Mahasiswa">
             </div>
             <div class="col-md-6 mb-3">
-                <label for="peran" class="form-label">Peran</label>
-                <input type="text" class="form-control" id="peran" placeholder="Peran">
+                <label for="nim" class="form-label">NIM</label>
+                <input type="text" class="form-control" id="nim" placeholder="nim">
             </div>
         </div>
 
