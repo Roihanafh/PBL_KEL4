@@ -9,11 +9,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Query untuk mencari username di tabel Mahasiswa dan Dosen
     $sql = "
+    SELECT IdAdmin AS username, Password, 'admin' AS Role FROM Admin WHERE IdAdmin = ? 
+    UNION 
     SELECT Nim AS username, Password, 'mahasiswa' AS Role FROM Mahasiswa WHERE Nim = ? 
     UNION 
-    SELECT Nip AS username, Password, 'dosen' AS Role FROM Dosen WHERE Nip = ? 
+    SELECT Nip AS username, Password, 'dosen' AS Role FROM Dosen WHERE Nip = ?
 ";
-    $stmt = sqlsrv_prepare($conn, $sql, array(&$username, &$username));
+
+    $stmt = sqlsrv_prepare($conn, $sql, array(&$username, &$username, &$username));
 
     // Eksekusi query
     if (sqlsrv_execute($stmt)) {
