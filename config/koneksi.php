@@ -1,6 +1,6 @@
 <?php
 // Konfigurasi koneksi database
-$serverName = "DESKTOP-135ONBT\SQLEXPRESS"; // Jangan lupa diganti punya masing" :)
+$serverName = "DESKTOP-VHL7MV3"; // Jangan lupa diganti punya masing" :)
 $connectionOptions = [
     "Database" => "PBL_Lencana", // Nama database
     "Uid" => "",    // Username SQL Server
