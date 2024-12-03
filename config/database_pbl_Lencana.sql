@@ -12,6 +12,19 @@ GO
 
 USE PBL_Lencana;
 GO
+-- Tabel Admin
+CREATE TABLE Admin (
+    IdAdmin VARCHAR(20) NOT NULL PRIMARY KEY,
+    Password VARCHAR(255) NOT NULL,
+    Nama VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) NULL,
+    Role VARCHAR(50) NOT NULL DEFAULT 'Admin'
+);
+-- Data Dummy untuk Tabel Admin
+INSERT INTO Admin (IdAdmin, Password, Nama, Email) VALUES
+('A001', 'adminpass123', 'Andi Setiawan', 'andi.setiawan@polinema.ac.id'),
+('A002', 'adminpass234', 'Budi Santoso', 'budi.santoso@polinema.ac.id');
+
 
 -- Tabel Dosen (tanpa foreign key, karena tidak ada relasi dari tabel lain)
 CREATE TABLE Dosen (
