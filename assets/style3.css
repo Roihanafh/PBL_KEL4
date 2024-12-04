@@ -297,3 +297,18 @@ ul li:hover a {
     margin-bottom: -10px;
 }
 
+.profiledosen {
+    padding: 20px;
+    margin-top: 70px;
+    margin-left: 70px; 
+    margin-right: 35px;
+    
+}
+
+.profiledosen p {
+    font-size: 30px; 
+    font-weight: bold; 
+    padding-left: 6px;
+    margin-bottom: -10px;
+}
+
