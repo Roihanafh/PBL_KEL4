@@ -22,6 +22,14 @@
             </a>
         </li>
 
+        <!-- Menu Profile -->
+        <li>
+            <a href="../public/indexdosen.php?page=profile">
+                <i class="fas fa-user"></i>
+                <span class="menu-text">Profile</span>
+            </a>
+        </li>
+
          <!-- Menu Logout -->
          <li>
             <a href="../public/index.php">
