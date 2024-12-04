@@ -43,7 +43,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home'; // Default to 'home' if n
                 include('../app/Views/home.php');
                 break;
             case 'prestasi':
-                include('../app/Views/prestasi.php');
+                include('../app/Views/riwayat.php');
                 break;
             case 'formprestasi':
                 include('../app/Views/formprestasi.php'); 
