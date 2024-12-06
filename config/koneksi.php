@@ -1,5 +1,5 @@
 <?php
-$servername = "DESKTOP-VHL7MV3";
+$servername = "DESKTOP-135ONBT\SQLEXPRESS";
 $uid = ""; // masukkan username di sini
 $password = ""; // masukkan password di sini
 $database = "PBL_Lencana"; // nama database yang digunakan

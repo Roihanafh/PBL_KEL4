@@ -28,6 +28,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Set session untuk username dan role
                 $_SESSION['username'] = $username;
                 $_SESSION['role'] = $result['Role'];
+                if ($_SESSION['role'] == 'mahasiswa') {
+                    $_SESSION['nim'] = $result['username']; // Simpan NIM untuk mahasiswa
+                }
 
                 // Arahkan ke halaman sesuai role
                 switch ($_SESSION['role']) {
