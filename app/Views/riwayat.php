@@ -23,7 +23,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Data dari database -->
                 </tbody>
             </table>
         </div>
