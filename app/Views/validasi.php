@@ -40,6 +40,9 @@ if ($stmt === false) {
 
     <!-- Konten PHP dan tabel Anda -->
     <div class="container mt-4">
+        <div class="subjudul-wrapper">
+            <h1 class="subjudul">Prestasi Mahasiswa yang Belum Divalidasi</h1>
+        </div>
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
                 <thead class="thead-dark">
