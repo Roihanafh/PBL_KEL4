@@ -28,9 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Set session untuk username dan role
                 $_SESSION['username'] = $username;
                 $_SESSION['role'] = $result['Role'];
-                if ($_SESSION['role'] == 'mahasiswa') {
-                    $_SESSION['nim'] = $result['username']; // Simpan NIM untuk mahasiswa
-                }
 
                 // Arahkan ke halaman sesuai role
                 switch ($_SESSION['role']) {
@@ -38,9 +35,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         header('Location: public/indexadmin.php');
                         break;
                     case 'mahasiswa':
+                        $_SESSION['nim'] = $result['username'];
                         header('Location: public/indexmhs.php');
                         break;
                     case 'dosen':
+                        $_SESSION['nip'] = $result['username'];
                         header('Location: public/indexdosen.php');
                         break;
                     default:
