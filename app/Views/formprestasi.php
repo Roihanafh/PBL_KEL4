@@ -9,17 +9,18 @@
     </label>
     <select class="form-select" id="programStudi" required>
         <option selected disabled>Pilih Program Studi</option>
+        <option value="SIB">SIB</option>
+        <option value="TI">TI</option>
     </select>
 </div>
 
 <!-- Jenis Kompetisi -->
-<div class="mb-3">
+<div class="row">
+    <div class="col-md-6 mb-3">
     <label for="jenisKompetisi" class="form-label">
         Jenis Kompetisi <span class="text-danger">*</span>
     </label>
-    <select class="form-select" id="jenisKompetisi" required>
-        <option selected disabled>Pilih Jenis Kompetisi</option>
-    </select>
+    <input type="text" class="form-control" id="jenisKompetisi" placeholder="Jenis Kompetisi" required>
 </div>
 
 <!-- Tingkat Kompetisi -->
@@ -29,6 +30,10 @@
     </label>
     <select class="form-select" id="tingkatKompetisi" required>
         <option selected disabled>Pilih Tingkat Kompetisi</option>
+        <option value="Kabupaten/Kota">Kabupaten/Kota</option>
+        <option value="Provinsi">Provinsi</option>
+        <option value="Nasional">Nasional</option>
+        <option value="Internasional">Internasional</option>
     </select>
 </div>
 
@@ -96,9 +101,7 @@
         <label for="peringkatKompetisi" class="form-label">
             Peringkat Kompetisi <span class="text-danger">*</span>
         </label>
-        <select class="form-select" id="peringkatKompetisi" required>
-            <option selected disabled>Pilih Peringkat</option>
-        </select>
+        <input type="text" class="form-control" id="peringkatKompetisi" placeholder="Peringkat Kompetisi" required>
     </div>
     <div class="col-md-6 mb-3">
         <label for="namaPembimbing" class="form-label">
@@ -109,14 +112,13 @@
 </div>
 
         <!-- Upload Files -->
-        
         <div class="mb-3">
     <label for="fileSurat" class="form-label">
         File Surat Tugas <span class="text-danger">*</span>
     </label>
-    <input type="file" class="form-control" id="fileSurat" required>
+    <input type="file" class="form-control" id="fileSurat" accept="application/pdf" required>
     <small id="fileSuratError" class="text-danger d-none">
-        Ukuran file maksimal 2MB.
+        File harus berformat PDF dan ukuran maksimal 2MB.
     </small>
 </div>
 
@@ -124,9 +126,9 @@
     <label for="fileSertifikat" class="form-label">
         File Sertifikat <span class="text-danger">*</span>
     </label>
-    <input type="file" class="form-control" id="fileSertifikat" required>
+    <input type="file" class="form-control" id="fileSertifikat" accept="application/pdf" required>
     <small id="fileSertifikatError" class="text-danger d-none">
-        Ukuran file maksimal 2MB.
+        File harus berformat PDF dan ukuran maksimal 2MB.
     </small>
 </div>
 
@@ -134,11 +136,31 @@
     <label for="fileKegiatan" class="form-label">
         Foto Kegiatan <span class="text-danger">*</span>
     </label>
-    <input type="file" class="form-control" id="fileKegiatan" required>
+    <input type="file" class="form-control" id="fileKegiatan" accept="application/pdf" required>
     <small id="fileKegiatanError" class="text-danger d-none">
-        Ukuran file maksimal 2MB.
+        File harus berformat PDF dan ukuran maksimal 2MB.
     </small>
 </div>
+
+<script>
+    document.querySelectorAll('input[type="file"]').forEach(input => {
+        input.addEventListener('change', function () {
+            const file = this.files[0];
+            const errorElement = document.getElementById(this.id + 'Error');
+            if (file) {
+                const isPDF = file.type === "application/pdf";
+                const isSizeValid = file.size <= 2 * 1024 * 1024; // 2MB
+                
+                if (!isPDF || !isSizeValid) {
+                    errorElement.classList.remove('d-none');
+                    this.value = ''; // Clear the file input
+                } else {
+                    errorElement.classList.add('d-none');
+                }
+            }
+        });
+    });
+</script>
 
         <!-- Buttons -->
         <div class="d-flex justify-content-end gap-3 mt-4">

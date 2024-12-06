@@ -40,6 +40,9 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home'; // Default to 'home' if n
             case 'datamhs':
                 include('../app/Views/datamhs.php');
                 break;
+            case 'profile':
+                include('../app/Views/profiledosen.php');
+                break; 
             default:
                 echo '<div>Page not found.</div>';
                 break;
