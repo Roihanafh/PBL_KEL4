@@ -5,25 +5,26 @@ include '../config/koneksi.php'; // Pastikan file koneksi Anda bernama "koneksi.
 // Query untuk mengambil semua prestasi yang telah tervalidasi
 $sql = "
     SELECT 
-        p.PrestasiId,
-        p.JudulPrestasi,
-        p.TempatKompetisi,
-        p.TingkatPrestasi,
-        p.TipePrestasi,
-        p.Peringkat,
-        p.TanggalMulai,
-        p.TanggalBerakhir,
-        m.Nama AS NamaMahasiswa,
-        d.Nama AS NamaDosen
-    FROM 
-        Prestasi p
-    JOIN PrestasiMahasiswa pm ON p.PrestasiId = pm.PrestasiId
-    JOIN Mahasiswa m ON pm.Nim = m.Nim
-    LEFT JOIN Dosen d ON p.DosenNip = d.Nip
-    WHERE 
-        p.Status = 'Valid'
-    ORDER BY 
-        p.TanggalMulai;
+    p.PrestasiId,
+    p.JudulPrestasi,
+    p.TempatKompetisi,
+    p.TingkatPrestasi,
+    p.TipePrestasi,
+    p.Peringkat,
+    p.TanggalMulai,
+    p.TanggalBerakhir,
+    m.Nama AS NamaMahasiswa,
+    d.Nama AS NamaDosen
+FROM 
+    Prestasi p
+JOIN PrestasiMahasiswa pm ON p.PrestasiId = pm.PrestasiId
+JOIN Mahasiswa m ON pm.Nim = m.Nim
+LEFT JOIN Dosen d ON p.DosenNip = d.Nip
+WHERE 
+    p.Status = 'Valid'
+ORDER BY 
+    p.TanggalMulai;
+
 ";
 
 // Menjalankan query
@@ -61,6 +62,7 @@ if ($stmt === false) {
                 <thead>
                     <tr>
                         <th class="align-middle p-3">No</th> <!-- Menambahkan padding -->
+                        <th class="align-middle p-3">Nama Mahasiswa</th>
                         <th class="align-middle p-3">Judul Prestasi</th>
                         <th class="align-middle p-3">Tempat Kompetisi</th>
                         <th class="align-middle p-3">Tingkat Prestasi</th>
@@ -68,7 +70,6 @@ if ($stmt === false) {
                         <th class="align-middle p-3">Peringkat</th>
                         <th class="align-middle p-3">Tanggal Mulai</th>
                         <th class="align-middle p-3">Tanggal Berakhir</th>
-                        <th class="align-middle p-3">Nama Mahasiswa</th>
                         <th class="align-middle p-3">Nama Dosen</th>
                     </tr>
                 </thead>
@@ -79,6 +80,7 @@ if ($stmt === false) {
                     <?php while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)): ?>
                         <tr>
                             <td class="p-3"><?php echo $no++; ?></td> <!-- Menambahkan padding -->
+                            <td class="p-3"><?php echo htmlspecialchars($row['NamaMahasiswa']); ?></td>
                             <td class="p-3"><?php echo htmlspecialchars($row['JudulPrestasi']); ?></td>
                             <td class="p-3"><?php echo htmlspecialchars($row['TempatKompetisi']); ?></td>
                             <td class="p-3"><?php echo htmlspecialchars($row['TingkatPrestasi']); ?></td>
@@ -86,7 +88,6 @@ if ($stmt === false) {
                             <td class="p-3"><?php echo htmlspecialchars($row['Peringkat']); ?></td>
                             <td class="p-3"><?php echo htmlspecialchars($row['TanggalMulai']->format('Y-m-d')); ?></td>
                             <td class="p-3"><?php echo htmlspecialchars($row['TanggalBerakhir']->format('Y-m-d')); ?></td>
-                            <td class="p-3"><?php echo htmlspecialchars($row['NamaMahasiswa']); ?></td>
                             <td class="p-3"><?php echo htmlspecialchars($row['NamaDosen']); ?></td>
                         </tr>
                     <?php endwhile; ?>
