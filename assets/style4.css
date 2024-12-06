@@ -1,1 +1,17 @@
 /* Admin */
+
+.status-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.status-invalid {
+    background-color: orange; /* Merah untuk status 'Tidak Valid' atau 'Menunggu Validasi' */
+    color: white;
+    border: 2px solid orange; /* Border merah untuk menonjolkan status */
+}
