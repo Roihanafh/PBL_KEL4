@@ -77,10 +77,13 @@ if ($stmt === false) {
                                 </div>
                             </td>
                             <td class="text-center p-3">
-                                <a href="" class="btn btn-success">
+                                <a href="../app/Views/detailPrestasi.php?prestasi_id=<?= urlencode($row['PrestasiId']); ?>" class="btn btn-success">
                                     Detail
                                 </a>
+
+
                             </td>
+
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
