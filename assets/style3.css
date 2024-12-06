@@ -312,7 +312,18 @@ ul li:hover a {
     margin-bottom: -10px;
 }
 
-
+.riwayat {
+    padding: 20px;
+    margin-top: 30px;
+    margin-left: 50px; 
+    margin-right: 35px;
+}
+.riwayat p {
+    font-size: 30px; 
+    font-weight: bold; 
+    padding-left: 6px;
+    margin-bottom: -10px;
+}
 
 
 
