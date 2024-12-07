@@ -175,9 +175,9 @@ if ($stmt === false) {
             <div class="hubungi">
                 <p>Hubungi Kami</p>
                 <br>
-                <p>Alamat: <span class="wi">Soehat Jalan Remujung No 45</span></p>
-                <p>Telpon: <span class="wi">+84 1102 2703</span></p>
-                <p>Email: <span class="wi">poltek@gmail.com</span></p>
+                <p>Alamat: <a class="wi" href="https://www.google.com/maps/search/?api=1&query=Politeknik+Negeri+Malang,+Jl.+Soekarno+Hatta+No.9,+Malang,+Jawa+Timur+65141" target="_blank" rel="noopener noreferrer">Politeknik Negeri Malang, Jl. Soekarno Hatta No.9, Malang, Jawa Timur 65141</a></p>
+                <p>Telpon: <span class="wi">0341404424</span></p>
+                <p>Email: <span class="wi">humas@polinema.ac.id</span></p>
             </div>
             <div class="tautan">
                 <p>Tautan Penting</p>
