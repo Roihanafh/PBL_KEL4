@@ -50,13 +50,13 @@ if (sqlsrv_execute($stmt)) {
         
         <div class="mb-3">
             <label for="teleponMahasiswa" class="form-label">Nomor Telepon</label>
-            <input type="text" id="teleponMahasiswa" class="form-control" value="" disabled>
+            <input type="text" id="teleponMahasiswa" class="form-control" value="<?php echo $data['NoTelp']; ?>" disabled>
         </div>
         
         <!-- Alamat -->
         <div class="mb-3">
             <label for="alamatMahasiswa" class="form-label">Alamat</label>
-            <textarea id="alamatMahasiswa" class="form-control" rows="3" disabled></textarea>
+            <textarea id="alamatMahasiswa" class="form-control" rows="3" disabled><?php echo $data['Alamat']; ?></textarea>
         </div>
         
         <!-- Tombol Aksi -->

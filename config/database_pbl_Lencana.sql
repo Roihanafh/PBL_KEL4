@@ -134,3 +134,60 @@ VALUES
 (9, 'NIM005'),
 (10, 'NIM006');
 GO
+
+-- Merubah tabel dosen
+ALTER TABLE Dosen
+ADD Alamat VARCHAR(255) NULL;
+
+-- Merubah tabel mahasiswa
+ALTER TABLE Mahasiswa
+ADD NoTelp VARCHAR(15) NULL,
+    Alamat VARCHAR(255) NULL;
+
+-- Merubah data dummy
+UPDATE Dosen
+SET Alamat = 'Jl. Sudirman No. 45, Malang' WHERE Nip = 'NIP001';
+
+UPDATE Dosen
+SET Alamat = 'Jl. Diponegoro No. 20, Jakarta' WHERE Nip = 'NIP002';
+
+UPDATE Dosen
+SET Alamat = 'Jl. Pahlawan No. 10, Surabaya' WHERE Nip = 'NIP003';
+
+UPDATE Dosen
+SET Alamat = 'Jl. Merdeka No. 30, Bandung' WHERE Nip = 'NIP004';
+
+UPDATE Dosen
+SET Alamat = 'Jl. Kartini No. 5, Yogyakarta' WHERE Nip = 'NIP005';
+
+UPDATE Mahasiswa
+SET NoTelp = '0811111111', Alamat = 'Jl. Cempaka No. 12, Malang' WHERE Nim = 'NIM001';
+
+UPDATE Mahasiswa
+SET NoTelp = '0822222222', Alamat = 'Jl. Melati No. 25, Surabaya' WHERE Nim = 'NIM002';
+
+UPDATE Mahasiswa
+SET NoTelp = '0833333333', Alamat = 'Jl. Mawar No. 7, Jakarta' WHERE Nim = 'NIM003';
+
+UPDATE Mahasiswa
+SET NoTelp = '0844444444', Alamat = 'Jl. Kenanga No. 8, Bandung' WHERE Nim = 'NIM004';
+
+UPDATE Mahasiswa
+SET NoTelp = '0855555555', Alamat = 'Jl. Anggrek No. 10, Yogyakarta' WHERE Nim = 'NIM005';
+
+UPDATE Mahasiswa
+SET NoTelp = '0866666666', Alamat = 'Jl. Flamboyan No. 18, Denpasar' WHERE Nim = 'NIM006';
+
+UPDATE Mahasiswa
+SET NoTelp = '0877777777', Alamat = 'Jl. Sakura No. 3, Makassar' WHERE Nim = 'NIM007';
+
+UPDATE Mahasiswa
+SET NoTelp = '0888888888', Alamat = 'Jl. Teratai No. 6, Semarang' WHERE Nim = 'NIM008';
+
+UPDATE Mahasiswa
+SET NoTelp = '0899999999', Alamat = 'Jl. Tulip No. 9, Bali' WHERE Nim = 'NIM009';
+
+UPDATE Mahasiswa
+SET NoTelp = '0810101010', Alamat = 'Jl. Dahlia No. 11, Solo' WHERE Nim = 'NIM010';
+
+
