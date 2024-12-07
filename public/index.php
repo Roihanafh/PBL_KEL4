@@ -1,5 +1,34 @@
+<?php
+include '../config/koneksi.php'; // Pastikan file koneksi sudah benar
+
+// Query untuk mengambil data dari Prestasi dan Mahasiswa
+$sql = "
+    SELECT TOP 15
+        m.Nama, 
+        p.JudulPrestasi, 
+        p.TanggalBerakhir, 
+        p.Peringkat, 
+        p.TingkatPrestasi, 
+        p.TipePrestasi
+    FROM 
+        Prestasi p
+    JOIN PrestasiMahasiswa pm ON p.PrestasiId = pm.PrestasiId
+    JOIN Mahasiswa m ON pm.Nim = m.Nim;
+";
+
+
+// Menjalankan query
+$stmt = sqlsrv_query($conn, $sql);
+
+// Cek jika query berhasil
+if ($stmt === false) {
+    die(print_r(sqlsrv_errors(), true));
+}
+?>
+
 <!DOCTYPE html>
 <html lang="id">
+
 
 <head>
     <meta charset="UTF-8">
@@ -68,11 +97,10 @@
                 <p class="ps2">Prestasi</p>
                 <h1>Prestasi <span class="ps2">yang Telah di Raih oleh</span> Mahasiswa</h1>
             </div>
-
             <div class="container">
                 <div class="table-responsive">
                     <table class="table table-bordered">
-                        <thead class="table-bordered">
+                        <thead>
                             <tr>
                                 <th>No</th>
                                 <th>Nama</th>
@@ -80,127 +108,45 @@
                                 <th>Tanggal</th>
                                 <th>Peringkat</th>
                                 <th>Tingkat</th>
-                                <th>Kategori</th>
+                                <th>Tipe Prestasi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="ganjil">1</td>
-                                <td>Ahmad</td>
-                                <td class="ganjil">Kompetisi Coding Nasional</td>
-                                <td>2024-12-01</td>
-                                <td class="ganjil">1</td>
-                                <td>Nasional</td>
-                                <td class="ganjil">Teknologi</td>
-                            </tr>
-                            <tr>
-                                <td class="ganjil">-</td>
+                            <?php
+                            $no = 1;
+                            $rowCount = 0;
+
+                            // Menampilkan hasil query
+                            while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+                                echo "<tr>
+                                <td>{$no}</td>
+                                <td>" . (!empty($row['Nama']) ? $row['Nama'] : '-') . "</td>
+                                <td>" . (!empty($row['JudulPrestasi']) ? $row['JudulPrestasi'] : '-') . "</td>
+                                <td>" . (!empty($row['TanggalBerakhir']) ? $row['TanggalBerakhir']->format('Y-m-d') : '-') . "</td>
+                                <td>" . (!empty($row['Peringkat']) ? $row['Peringkat'] : '-') . "</td>
+                                <td>" . (!empty($row['TingkatPrestasi']) ? $row['TingkatPrestasi'] : '-') . "</td>
+                                <td>" . (!empty($row['TipePrestasi']) ? $row['TipePrestasi'] : '-') . "</td>
+                                </tr>";
+                                $no++;
+                                $rowCount++;
+                            }
+
+                            // Jika jumlah data kurang dari 15, tambahkan baris kosong dengan tanda '-'
+                            while ($rowCount < 15) {
+                                echo "<tr>
+                                <td>{$no}</td>
                                 <td>-</td>
-                                <td class="ganjil">-</td>
                                 <td>-</td>
-                                <td class="ganjil">-</td>
                                 <td>-</td>
-                                <td class="ganjil">-</td>
-                            </tr>
-                            <tr>
-                                <td class="ganjil">-</td>
                                 <td>-</td>
-                                <td class="ganjil">-</td>
                                 <td>-</td>
-                                <td class="ganjil">-</td>
                                 <td>-</td>
-                                <td class="ganjil">-</td>
-                            </tr>
-                            <tr>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                            </tr>
-                            <tr>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                            </tr>
-                            <tr>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                            </tr>
-                            <tr>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                            </tr>
-                            <tr>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                            </tr>
-                            <tr>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                            </tr>
-                            <tr>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                            </tr>
-                            <tr>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                            </tr>
-                            <tr>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                            </tr>
-                            <tr>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                                <td>-</td>
-                                <td class="ganjil">-</td>
-                            </tr>
+                                </tr>";
+                                $no++;
+                                $rowCount++;
+                            }
+                            ?>
+
                         </tbody>
                     </table>
                 </div>
@@ -212,7 +158,7 @@
         <div class="about mt-5" id="tentang">
             <div class="about-content">
                 <h1>Tentang Kami</h1>
-                    <p>Prodi Manajemen Informatika (DIII) Politeknik Negeri Malang berdiri pada 24 Juni 2005 berdasarkan SK Mendiknas No. 2001/D/T/2005 di bawah Jurusan Teknik Elektro. Kurikulum awalnya menyesuaikan perkembangan TI dan kebutuhan kerja, dan sejak 2006/2007 menggunakan kurikulum 5-1 (5 semester di kampus, 1 semester di industri) dengan total 120 SKS.
+                <p>Prodi Manajemen Informatika (DIII) Politeknik Negeri Malang berdiri pada 24 Juni 2005 berdasarkan SK Mendiknas No. 2001/D/T/2005 di bawah Jurusan Teknik Elektro. Kurikulum awalnya menyesuaikan perkembangan TI dan kebutuhan kerja, dan sejak 2006/2007 menggunakan kurikulum 5-1 (5 semester di kampus, 1 semester di industri) dengan total 120 SKS.
                     <br><br>
                     Pada 2022, melalui program upgrading Kemendikbudristek, Prodi Manajemen Informatika ditingkatkan menjadi Prodi Sarjana Terapan Sistem Informasi Bisnis berdasarkan SK Mendikbudristek No. 33/D/OT/2022. Prodi baru ini mulai menerima mahasiswa pada Semester Ganjil 2022/2023 di bawah Jurusan Teknologi Informasi.
                 </p>
@@ -220,7 +166,7 @@
             <div class="imgtk">
                 <img src="../assets/informatika.jpeg" alt="Teknik Informatika">
                 <img src="../assets/sistem.jpg" alt="Sistem Informasi Bisnis">
-                </div>
+            </div>
         </div>
     </div>
 
@@ -238,15 +184,15 @@
                 <br>
                 <p>Panduan Pendaftaran</p>
                 <p>FAQ</p>
-                <p>Kebijakan Privasi</p>    
+                <p>Kebijakan Privasi</p>
             </div>
             <div class="follow">
-            <b>Ikuti Kami</b>
-            <div class="followlogo">
-                <i class="bi bi-facebook"></i>
-                <i class="bi bi-linkedin"></i>
-                <i class="bi bi-twitter"></i>
-            </div>
+                <b>Ikuti Kami</b>
+                <div class="followlogo">
+                    <i class="bi bi-facebook"></i>
+                    <i class="bi bi-linkedin"></i>
+                    <i class="bi bi-twitter"></i>
+                </div>
             </div>
         </div>
     </div>
@@ -273,31 +219,31 @@
 
     <!-- Popup -->
     <form action="../login.php" method="POST">
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5 strong" id="exampleModalLabel">Login Account</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="recipient-name" class="col-form-label">NIM/NIP</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="message-text" class="col-form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary uwb">Sign In</button>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5 strong" id="exampleModalLabel">Login Account</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="recipient-name" class="col-form-label">NIM/NIP</label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message-text" class="col-form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary uwb">Sign In</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </form>
 
 
