@@ -14,8 +14,8 @@ class PrestasiController {
         return $this->prestasiModel->getPrestasiByNIM($nim);
     }
 
-    public function addPrestasi($data) {
-        return $this->prestasiModel->addPrestasi($data);
+    public function addPrestasi($conn, $data) {
+        return $this->prestasiModel->addPrestasi($conn,$data);
     }
 }
 ?>
