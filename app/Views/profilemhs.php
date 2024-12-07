@@ -12,6 +12,24 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'mahasiswa') {
 
 // Ambil NIM dari session
 $nim = $_SESSION['nim'];
+$message = null;
+
+// Jika form disubmit, proses update data
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nama = $_POST['namaMahasiswa'];
+    $email = $_POST['emailMahasiswa'];
+    $telepon = $_POST['teleponMahasiswa'];
+    $alamat = $_POST['alamatMahasiswa'];
+
+    $sql_update = "UPDATE Mahasiswa SET Nama = ?, Email = ?, NoTelp = ?, Alamat = ? WHERE Nim = ?";
+    $stmt_update = sqlsrv_prepare($conn, $sql_update, array(&$nama, &$email, &$telepon, &$alamat, &$nim));
+
+    if (sqlsrv_execute($stmt_update)) {
+        $message = "Data berhasil diperbarui.";
+    } else {
+        $message = "Terjadi kesalahan saat memperbarui data.";
+    }
+}
 
 // Query untuk mengambil data mahasiswa
 $sql = "SELECT * FROM Mahasiswa WHERE Nim = ?";
@@ -30,61 +48,59 @@ if (sqlsrv_execute($stmt)) {
 <div class="profilemhs">
     <p>Profile Saya</p>
     <hr class="line">
-    <form>
-        <!-- Nama Mahasiswa dan NIM -->
+    <form method="POST">
+        <!-- Nama Mahasiswa -->
         <div class="mb-3">
             <label for="namaMahasiswa" class="form-label">Nama Mahasiswa</label>
-            <input type="text" id="namaMahasiswa" class="form-control" value="<?php echo $data['Nama']; ?>" disabled>
+            <input type="text" name="namaMahasiswa" id="namaMahasiswa" class="form-control" value="<?php echo $data['Nama']; ?>" disabled>
         </div>
 
+        <!-- NIM -->
         <div class="mb-3">
             <label for="nimMahasiswa" class="form-label">NIM</label>
-            <input type="text" id="nimMahasiswa" class="form-control" value="<?php echo $data['Nim']; ?>" disabled>
+            <input type="text" name="nimMahasiswa" id="nimMahasiswa" class="form-control" value="<?php echo $data['Nim']; ?>" disabled>
         </div>
-        
-        <!-- Email dan Nomor Telepon -->
+
+        <!-- Email -->
         <div class="mb-3">
             <label for="emailMahasiswa" class="form-label">Email</label>
-            <input type="email" id="emailMahasiswa" class="form-control" value="<?php echo $data['Email']; ?>" disabled>
+            <input type="email" name="emailMahasiswa" id="emailMahasiswa" class="form-control" value="<?php echo $data['Email']; ?>" disabled>
         </div>
-        
+
+        <!-- Nomor Telepon -->
         <div class="mb-3">
             <label for="teleponMahasiswa" class="form-label">Nomor Telepon</label>
-            <input type="text" id="teleponMahasiswa" class="form-control" value="<?php echo $data['NoTelp']; ?>" disabled>
+            <input type="text" name="teleponMahasiswa" id="teleponMahasiswa" class="form-control" value="<?php echo $data['NoTelp']; ?>" disabled>
         </div>
-        
+
         <!-- Alamat -->
         <div class="mb-3">
             <label for="alamatMahasiswa" class="form-label">Alamat</label>
-            <textarea id="alamatMahasiswa" class="form-control" rows="3" disabled><?php echo $data['Alamat']; ?></textarea>
+            <textarea name="alamatMahasiswa" id="alamatMahasiswa" class="form-control" rows="3" disabled><?php echo $data['Alamat']; ?></textarea>
         </div>
-        
+
         <!-- Tombol Aksi -->
         <div class="text-end">
             <button type="button" id="ubahDataBtn" class="btn btn-primary">Ubah Data</button>
+            <button type="submit" id="simpanDataBtn" class="btn btn-success" style="display: none;">Simpan Data</button>
         </div>
     </form>
 </div>
 
 <script>
-    const button = document.getElementById('ubahDataBtn');
-    const inputs = document.querySelectorAll('#namaMahasiswa, #nimMahasiswa, #emailMahasiswa, #teleponMahasiswa, #alamatMahasiswa');
+    // Ambil pesan dari PHP
+    const message = <?php echo json_encode($message); ?>;
+    if (message) {
+        alert(message); // Tampilkan pop-up
+    }
 
-    button.addEventListener('click', function () {
-        if (button.textContent === 'Ubah Data') {
-            // Aktifkan elemen dengan menghapus atribut disabled
-            inputs.forEach(input => {
-                input.disabled = false;
-            });
-            // Ubah teks tombol menjadi "Simpan Data"
-            button.textContent = 'Simpan Data';
-        } else {
-            // Simpan data dan kunci kembali elemen
-            inputs.forEach(input => {
-                input.disabled = true;
-            });
-            alert('Data berhasil disimpan!'); // Notifikasi sederhana
-            button.textContent = 'Ubah Data'; // Ubah kembali teks tombol
-        }
+    const ubahButton = document.getElementById('ubahDataBtn');
+    const simpanButton = document.getElementById('simpanDataBtn');
+    const inputs = document.querySelectorAll('#namaMahasiswa, #emailMahasiswa, #teleponMahasiswa, #alamatMahasiswa');
+
+    ubahButton.addEventListener('click', function () {
+        inputs.forEach(input => input.disabled = false);
+        ubahButton.style.display = 'none';
+        simpanButton.style.display = 'inline-block';
     });
 </script>
