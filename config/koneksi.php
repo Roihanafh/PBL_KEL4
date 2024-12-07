@@ -1,27 +1,17 @@
 <?php
-$servername = "DESKTOP-135ONBT\SQLEXPRESS";
-$uid = ""; // masukkan username di sini
-$password = ""; // masukkan password di sini
-$database = "PBL_Lencana"; // nama database yang digunakan
-
-// Konfigurasi koneksi
-$connection = [
-    "Database" => $database,
-    "UID" => $uid,
-    "PWD" => $password,
-    "Encrypt" => "No", // Atur enkripsi menjadi opsional atau 'No' jika tidak ingin enkripsi
-    "TrustServerCertificate" => true // Opsi jika sertifikat tidak tepercaya
+// Konfigurasi koneksi database
+$serverName = "RAUDHIL-FN"; // Server SQL Server Anda
+$connectionOptions = [
+    "Database" => "PBL_Lencana", // Nama database
+    "Uid" => "",    // Username SQL Server
+    "PWD" => ""     // Password SQL Server
 ];
 
-// Mencoba menghubungkan ke server SQL
-$conn = sqlsrv_connect($servername, $connection);
+// Membuat koneksi
+$conn = sqlsrv_connect($serverName, $connectionOptions);
 
-// Mengecek koneksi
-if (!$conn) {
+// Cek koneksi
+if ($conn === false) {
     die(print_r(sqlsrv_errors(), true)); // Menampilkan pesan error jika koneksi gagal
-} else {
-    // echo 'Koneksi berhasil'; // Pesan jika koneksi berhasil
 }
-
-
 ?>
