@@ -1,4 +1,3 @@
-// models/MahasiswaModel.php
 <?php
 class Mahasiswa extends Model {
 
