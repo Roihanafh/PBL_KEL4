@@ -49,8 +49,10 @@ if ($stmt === false) {
                         <td><?= htmlspecialchars($row['Angkatan']); ?></td>
                         <td>
                             <a href="tambah_prestasi.php?nim=<?= urlencode($row['Nim']); ?>" class="btn btn-success btn-sm">Tambah Prestasi</a>
-                            <a href="edit_mhs.php?nim=<?= urlencode($row['Nim']); ?>" class="btn btn-warning btn-sm">Edit Data</a>
-                            <a href="hapus_mhs.php?nim=<?= urlencode($row['Nim']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">Hapus</a>
+                            <a href="../app/Views/edit_mhs.php?nim=<?= urlencode($row['Nim']); ?>" class="btn btn-warning btn-sm">Edit Data</a>
+                            <a href="../app/Views/hapus_mhs.php?nim=<?= urlencode($row['Nim']); ?>"
+                                class="btn btn-danger btn-sm"
+                                onclick="return confirmHapus('<?= htmlspecialchars($row['Nama']); ?>');">Hapus</a>
                         </td>
                     </tr>
                 <?php endwhile; ?>
@@ -59,6 +61,11 @@ if ($stmt === false) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function confirmHapus(nama) {
+            return confirm(`Apakah Anda yakin ingin menghapus data mahasiswa "${nama}"?`);
+        }
+    </script>
 </body>
 
 </html>
