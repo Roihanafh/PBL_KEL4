@@ -1,10 +1,11 @@
+// models/MahasiswaModel.php
 <?php
-class Mahasiswa {
-    private $conn;
+class Mahasiswa extends Model {
+
     private $nim;
 
     public function __construct($conn, $nim) {
-        $this->conn = $conn;
+        parent::__construct(); // Call the parent constructor to initialize the connection
         $this->nim = $nim;
     }
 
