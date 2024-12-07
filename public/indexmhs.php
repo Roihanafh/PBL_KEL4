@@ -1,25 +1,18 @@
 <?php
 session_start();
-include('../config/koneksi.php');
+require_once '../app/Controllers/PrestasiController.php';
 
-    $page = isset($_GET['page']) ? $_GET['page'] : 'home'; // Default to 'home' if no page is specified
-    $nimLogin = $_SESSION['nim'];
+$prestasiController = new PrestasiController();
+$nimLogin = $_SESSION['nim'];
 
-    // Mengecek apakah mahasiswa sudah memiliki data prestasi
-    $hasPrestasi = false;
+// Mengecek apakah mahasiswa sudah memiliki data prestasi
+$hasPrestasi = $prestasiController->checkPrestasi($nimLogin);
 
-    if ($page === 'prestasi') {
-        $sqlCheck = "SELECT COUNT(*) AS Jumlah FROM PrestasiMahasiswa WHERE Nim = ?";
-        $params = array($nimLogin);
-        $stmt = sqlsrv_query($conn, $sqlCheck, $params);
+$page = isset($_GET['page']) ? $_GET['page'] : 'home'; // Default to 'home' if no page is specified
 
-        if ($stmt && $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
-            $hasPrestasi = $row['Jumlah'] > 0; // true jika memiliki data prestasi
-        }
-        
-        // Arahkan ke halaman yang sesuai
-        $page = $hasPrestasi ? 'riwayat' : 'prestasi';
-    }
+if ($page === 'prestasi') {
+    $page = $hasPrestasi ? 'riwayat' : 'prestasi';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,8 +36,8 @@ include('../config/koneksi.php');
         addPrestasi.classList.toggle('responsive'); 
     }
     function redirectToFormPrestasi() {
-    window.location.href = 'indexmhs.php?page=formprestasi';
-}  
+        window.location.href = 'indexmhs.php?page=formprestasi';
+    }
 </script>
 </head>
 <body>

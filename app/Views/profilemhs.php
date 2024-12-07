@@ -4,7 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 include '../config/koneksi.php';
 
-// Periksa apakah user sudah login sebagai mahasiswa
+// Periksa apakah pengguna sudah login
 if (!isset($_SESSION['role']) || $_SESSION['role'] != 'mahasiswa') {
     header('Location: login.php');
     exit();
@@ -14,6 +14,45 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'mahasiswa') {
 $nim = $_SESSION['nim'];
 $message = null;
 
+// Class Mahasiswa
+class Mahasiswa {
+    private $conn;
+    private $nim;
+
+    public function __construct($conn, $nim) {
+        $this->conn = $conn;
+        $this->nim = $nim;
+    }
+
+    // Mengambil data mahasiswa berdasarkan NIM
+    public function getData() {
+        $sql = "SELECT * FROM Mahasiswa WHERE Nim = ?";
+        $stmt = sqlsrv_prepare($this->conn, $sql, array(&$this->nim));
+
+        if (sqlsrv_execute($stmt)) {
+            return sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
+        } else {
+            echo "Terjadi kesalahan saat mengambil data mahasiswa: ";
+            print_r(sqlsrv_errors());
+            exit();
+        }
+    }
+
+    // Memperbarui data mahasiswa
+    public function updateData($nama, $email, $telepon, $alamat) {
+        $sql_update = "UPDATE Mahasiswa SET Nama = ?, Email = ?, NoTelp = ?, Alamat = ? WHERE Nim = ?";
+        $stmt_update = sqlsrv_prepare($this->conn, $sql_update, array(&$nama, &$email, &$telepon, &$alamat, &$this->nim));
+
+        if (sqlsrv_execute($stmt_update)) {
+            return "Data berhasil diperbarui.";
+        } else {
+            return "Terjadi kesalahan saat memperbarui data.";
+        }
+    }
+}
+
+$mahasiswa = new Mahasiswa($conn, $nim);
+
 // Jika form disubmit, proses update data
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama = $_POST['namaMahasiswa'];
@@ -21,28 +60,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $telepon = $_POST['teleponMahasiswa'];
     $alamat = $_POST['alamatMahasiswa'];
 
-    $sql_update = "UPDATE Mahasiswa SET Nama = ?, Email = ?, NoTelp = ?, Alamat = ? WHERE Nim = ?";
-    $stmt_update = sqlsrv_prepare($conn, $sql_update, array(&$nama, &$email, &$telepon, &$alamat, &$nim));
-
-    if (sqlsrv_execute($stmt_update)) {
-        $message = "Data berhasil diperbarui.";
-    } else {
-        $message = "Terjadi kesalahan saat memperbarui data.";
-    }
+    $message = $mahasiswa->updateData($nama, $email, $telepon, $alamat);
 }
 
-// Query untuk mengambil data mahasiswa
-$sql = "SELECT * FROM Mahasiswa WHERE Nim = ?";
-$stmt = sqlsrv_prepare($conn, $sql, array(&$nim));
-$data = null;
-
-if (sqlsrv_execute($stmt)) {
-    $data = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
-} else {
-    echo "Terjadi kesalahan saat mengambil data mahasiswa: ";
-    print_r(sqlsrv_errors());
-    exit();
-}
+// Ambil data mahasiswa
+$data = $mahasiswa->getData();
 ?>
 
 <div class="profilemhs">
