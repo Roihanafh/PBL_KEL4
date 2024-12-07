@@ -51,7 +51,7 @@ CREATE TABLE Prestasi (
     FotoKegiatan VARBINARY(MAX) NULL,
     JudulPrestasi VARCHAR(255) NULL,
     Poin INT NULL,
-    TingkatPrestasi VARCHAR(50) CHECK (TingkatPrestasi IN ('Nasional', 'Internasional', 'Provinsi')) NULL,
+    TingkatPrestasi VARCHAR(50) CHECK (TingkatPrestasi IN ('Kabupaten/Kota','Nasional', 'Internasional', 'Provinsi')) NULL,
     TipePrestasi VARCHAR(50) CHECK (TipePrestasi IN ('Individu', 'Kelompok')) NULL,
     DosenNip VARCHAR(25), -- FK Dosen
     FOREIGN KEY (DosenNip) REFERENCES Dosen(Nip) -- Menambahkan foreign key
