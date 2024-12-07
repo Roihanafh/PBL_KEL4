@@ -19,10 +19,10 @@ class PrestasiModel extends Model {
     public function addPrestasi($conn, $data) {
         // Query untuk insert data ke tabel PrestasiMahasiswa
         $sql = "INSERT INTO Prestasi 
-        (Peringkat, Url, TanggalMulai, TanggalBerakhir, TempatKompetisi, JudulPrestasi, TingkatPrestasi, TipePrestasi, BuktiSuratTugas, BuktiSertif, FotoKegiatan, Status)
+        (Peringkat, Url, TanggalMulai, TanggalBerakhir, TempatKompetisi, JudulPrestasi, TingkatPrestasi, TipePrestasi, BuktiSuratTugas, BuktiSertif, FotoKegiatan, Status, DosenNip)
         OUTPUT INSERTED.PrestasiId
         VALUES 
-        (?, ?, ?, ?, ?, ?, ?, ?, CONVERT(VARBINARY(MAX), ?), CONVERT(VARBINARY(MAX), ?), CONVERT(VARBINARY(MAX), ?), ?)";
+        (?, ?, ?, ?, ?, ?, ?, ?, CONVERT(VARBINARY(MAX), ?), CONVERT(VARBINARY(MAX), ?), CONVERT(VARBINARY(MAX), ?), ?,?)";
         
         // Parameter yang digunakan untuk query
         $params = [ 
@@ -37,7 +37,8 @@ class PrestasiModel extends Model {
             $data['fileSurat'],
             $data['fileSertifikat'],
             $data['fileKegiatan'],
-            'Menunggu Validasi'
+            'Menunggu Validasi',
+            $data['namaPembimbing']
         ];
         $stmtPrestasi = sqlsrv_query($conn, $sql, $params);
         if ($stmtPrestasi === false) {
@@ -68,6 +69,7 @@ class PrestasiModel extends Model {
                     echo 'Error inserting data into PrestasiMahasiswa: ' . print_r(sqlsrv_errors(), true);
                 } else {
                     echo 'Prestasi mahasiswa berhasil disimpan.';
+                    
                 }
             }
         }
