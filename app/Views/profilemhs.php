@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 include '../config/koneksi.php';
 
 // Periksa apakah user sudah login sebagai mahasiswa

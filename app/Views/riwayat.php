@@ -3,7 +3,9 @@
 include '../config/koneksi.php';
 
 // Mulai session untuk mendapatkan NIM mahasiswa yang login
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 $nimLogin = $_SESSION['nim'];
 
 // Query untuk mengambil data prestasi mahasiswa yang login dengan tahun dari TanggalMulai
