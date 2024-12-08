@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    echo "<script>alert('Prestasi berhasil ditambahkan!'); window.location.href = 'dataallmahasiswa.php';</script>";
+    echo "<script>alert('Prestasi berhasil ditambahkan!'); window.location.href = 'http://localhost/PBL_KEL4/public/indexadmin.php?page=dataallmhs';</script>";
     exit;
 }
 
