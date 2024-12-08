@@ -65,3 +65,32 @@ require_once '../app/Views/riwayat.php';
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#dataPrestasi').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "lengthMenu": [5, 10, 25, 50, 100],
+            "language": {
+                "lengthMenu": "Tampilkan _MENU_ entri",
+                "zeroRecords": "Data tidak ditemukan",
+                "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
+                "infoEmpty": "Tidak ada entri yang tersedia",
+                "infoFiltered": "(difilter dari total _MAX_ entri)",
+                "search": "Cari:",
+                "paginate": {
+                    "first": "Pertama",
+                    "last": "Terakhir",
+                    "next": "Berikutnya",
+                    "previous": "Sebelumnya"
+                }
+            }
+        });
+    });
+</script>
+
