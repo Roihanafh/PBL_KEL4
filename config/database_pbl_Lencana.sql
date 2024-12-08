@@ -190,4 +190,9 @@ SET NoTelp = '0899999999', Alamat = 'Jl. Tulip No. 9, Bali' WHERE Nim = 'NIM009'
 UPDATE Mahasiswa
 SET NoTelp = '0810101010', Alamat = 'Jl. Dahlia No. 11, Solo' WHERE Nim = 'NIM010';
 
+-- hapus data yang ada pada prestasi
+DELETE FROM PrestasiMahasiswa;
+DELETE FROM Prestasi;
+
+
 
