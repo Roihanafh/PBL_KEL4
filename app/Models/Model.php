@@ -1,4 +1,3 @@
-// models/Model.php
 <?php
 class Model {
     protected $conn;

@@ -221,11 +221,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </small>
         </div>
         <div class="mb-3 text-end">
+            <button type="button" class="btn btn-secondary" onclick="history.back();">
+                Kembali
+            </button>
             <button type="submit" class="btn btn-primary">
                 Simpan Prestasi
             </button>
         </div>
-
     </form>
 </div>
 

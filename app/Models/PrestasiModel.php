@@ -1,4 +1,3 @@
-// models/PrestasiModel.php
 <?php
 
 require_once 'Model.php';

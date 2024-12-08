@@ -1,4 +1,3 @@
-// controllers/PrestasiController.php
 <?php
 require_once '../app/Models/PrestasiModel.php';
 
