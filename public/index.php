@@ -13,7 +13,9 @@ $sql = "
     FROM 
         Prestasi p
     JOIN PrestasiMahasiswa pm ON p.PrestasiId = pm.PrestasiId
-    JOIN Mahasiswa m ON pm.Nim = m.Nim;
+    JOIN Mahasiswa m ON pm.Nim = m.Nim
+    WHERE 
+        p.Status = 'Valid';
 ";
 
 
