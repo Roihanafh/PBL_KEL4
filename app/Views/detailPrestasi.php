@@ -12,6 +12,7 @@ if (!$prestasiId) {
 $sql = "
     SELECT p.PrestasiId, p.JudulPrestasi, p.TingkatPrestasi, p.TipePrestasi, p.Status, 
         p.TempatKompetisi, p.Url, p.TanggalMulai, p.TanggalBerakhir, p.Peringkat, 
+        p.BuktiSertif, p.BuktiSuratTugas, p.FotoKegiatan,
         m.Nim, m.Nama, m.ProgramStudi, d.Nama AS NamaDosen
         FROM Prestasi p
         INNER JOIN PrestasiMahasiswa pm ON p.PrestasiId = pm.PrestasiId
@@ -63,7 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-
     <div class="container mt-5">
         <h2>Detail Prestasi Mahasiswa</h2>
         <form method="POST">
@@ -79,11 +79,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="mb-3">
-                <label for="programStudi" class="form-label">Program Studi</label>
-                <input type="text" class="form-control" id="programStudi" value="<?= htmlspecialchars($data['ProgramStudi']); ?>" readonly>
-            </div>
-
-            <div class="mb-3">
                 <label for="judulKompetisi" class="form-label">Judul Kompetisi</label>
                 <input type="text" class="form-control" id="judulKompetisi" value="<?= htmlspecialchars($data['JudulPrestasi']); ?>" readonly>
             </div>
@@ -96,6 +91,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="mb-3">
                 <label for="namaPembimbing" class="form-label">Nama Pembimbing</label>
                 <input type="text" class="form-control" id="namaPembimbing" value="<?= htmlspecialchars($data['NamaDosen']); ?>" readonly>
+            </div>
+
+            <!-- File Bukti -->
+            <div class="mb-3">
+                <label class="form-label">Bukti Sertifikat</label>
+                <div>
+                    <?php if ($data['BuktiSertif']): ?>
+                        <a href="data:application/octet-stream;base64,<?= base64_encode($data['BuktiSertif']); ?>" download="bukti_sertif_<?= $data['PrestasiId']; ?>.pdf" class="btn btn-primary btn-sm">Download</a>
+                    <?php else: ?>
+                        <span class="text-muted">Tidak tersedia</span>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Surat Tugas</label>
+                <div>
+                    <?php if ($data['BuktiSuratTugas']): ?>
+                        <a href="data:application/octet-stream;base64,<?= base64_encode($data['BuktiSuratTugas']); ?>" download="surat_tugas_<?= $data['PrestasiId']; ?>.pdf" class="btn btn-primary btn-sm">Download</a>
+                    <?php else: ?>
+                        <span class="text-muted">Tidak tersedia</span>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Foto Kegiatan</label>
+                <div>
+                    <?php if ($data['FotoKegiatan']): ?>
+                        <a href="data:application/octet-stream;base64,<?= base64_encode($data['FotoKegiatan']); ?>" download="foto_kegiatan_<?= $data['PrestasiId']; ?>.pdf" class="btn btn-primary btn-sm">Download</a>
+                    <?php else: ?>
+                        <span class="text-muted">Tidak tersedia</span>
+                    <?php endif; ?>
+                </div>
             </div>
 
             <div class="d-flex justify-content-end">
