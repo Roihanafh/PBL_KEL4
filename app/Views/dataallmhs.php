@@ -48,7 +48,7 @@ if ($stmt === false) {
                         <td><?= htmlspecialchars($row['ProgramStudi']); ?></td>
                         <td><?= htmlspecialchars($row['Angkatan']); ?></td>
                         <td>
-                            <a href="tambah_prestasi.php?nim=<?= urlencode($row['Nim']); ?>" class="btn btn-success btn-sm">Tambah Prestasi</a>
+                            <a href="../app/Views/tambah_prestasi.php?nim=<?= urlencode($row['Nim']); ?>" class="btn btn-success btn-sm">Tambah Prestasi</a>
                             <a href="../app/Views/edit_mhs.php?nim=<?= urlencode($row['Nim']); ?>" class="btn btn-warning btn-sm">Edit Data</a>
                             <a href="../app/Views/hapus_mhs.php?nim=<?= urlencode($row['Nim']); ?>"
                                 class="btn btn-danger btn-sm"

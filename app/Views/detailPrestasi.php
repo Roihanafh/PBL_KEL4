@@ -63,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
+
     <div class="container mt-5">
         <h2>Detail Prestasi Mahasiswa</h2>
         <form method="POST">
