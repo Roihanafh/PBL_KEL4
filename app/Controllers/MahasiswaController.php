@@ -1,33 +1,20 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+require_once '../app/Models/MahasiswaModel.php';
+
+class MahasiswaController {
+
+    private $mahasiswaModel;
+
+    public function __construct($conn, $nim) {
+        $this->mahasiswaModel = new Mahasiswa($conn, $nim);
+    }
+
+    public function getMahasiswaData() {
+        return $this->mahasiswaModel->getData();
+    }
+
+    public function updateMahasiswaData($nama, $email, $telepon, $alamat) {
+        return $this->mahasiswaModel->updateData($nama, $email, $telepon, $alamat);
+    }
 }
-include '../config/koneksi.php';
-include '../app/Models/MahasiswaModel.php';
-
-// Periksa apakah pengguna sudah login
-if (!isset($_SESSION['role']) || $_SESSION['role'] != 'mahasiswa') {
-    header('Location: login.php');
-    exit();
-}
-
-// Ambil NIM dari session
-$nim = $_SESSION['nim'];
-$message = null;
-
-// Inisialisasi objek Mahasiswa
-$mahasiswa = new Mahasiswa($conn, $nim);
-
-// Jika form disubmit, proses update data
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nama = $_POST['namaMahasiswa'];
-    $email = $_POST['emailMahasiswa'];
-    $telepon = $_POST['teleponMahasiswa'];
-    $alamat = $_POST['alamatMahasiswa'];
-
-    $message = $mahasiswa->updateData($nama, $email, $telepon, $alamat);
-}
-
-// Ambil data mahasiswa
-$data = $mahasiswa->getData();
 ?>

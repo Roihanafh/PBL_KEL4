@@ -1,4 +1,6 @@
 <?php
+require_once '../app/Controllers/MahasiswaController.php';
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -14,44 +16,8 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'mahasiswa') {
 $nim = $_SESSION['nim'];
 $message = null;
 
-// Class Mahasiswa
-class Mahasiswa {
-    private $conn;
-    private $nim;
-
-    public function __construct($conn, $nim) {
-        $this->conn = $conn;
-        $this->nim = $nim;
-    }
-
-    // Mengambil data mahasiswa berdasarkan NIM
-    public function getData() {
-        $sql = "SELECT * FROM Mahasiswa WHERE Nim = ?";
-        $stmt = sqlsrv_prepare($this->conn, $sql, array(&$this->nim));
-
-        if (sqlsrv_execute($stmt)) {
-            return sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
-        } else {
-            echo "Terjadi kesalahan saat mengambil data mahasiswa: ";
-            print_r(sqlsrv_errors());
-            exit();
-        }
-    }
-
-    // Memperbarui data mahasiswa
-    public function updateData($nama, $email, $telepon, $alamat) {
-        $sql_update = "UPDATE Mahasiswa SET Nama = ?, Email = ?, NoTelp = ?, Alamat = ? WHERE Nim = ?";
-        $stmt_update = sqlsrv_prepare($this->conn, $sql_update, array(&$nama, &$email, &$telepon, &$alamat, &$this->nim));
-
-        if (sqlsrv_execute($stmt_update)) {
-            return "Data berhasil diperbarui.";
-        } else {
-            return "Terjadi kesalahan saat memperbarui data.";
-        }
-    }
-}
-
-$mahasiswa = new Mahasiswa($conn, $nim);
+// Inisialisasi controller
+$mahasiswaController = new MahasiswaController($conn, $nim);
 
 // Jika form disubmit, proses update data
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -60,11 +26,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $telepon = $_POST['teleponMahasiswa'];
     $alamat = $_POST['alamatMahasiswa'];
 
-    $message = $mahasiswa->updateData($nama, $email, $telepon, $alamat);
+    $message = $mahasiswaController->updateMahasiswaData($nama, $email, $telepon, $alamat);
 }
 
 // Ambil data mahasiswa
-$data = $mahasiswa->getData();
+$data = $mahasiswaController->getMahasiswaData();
 ?>
 
 <div class="profilemhs">
