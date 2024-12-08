@@ -182,47 +182,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Upload Files -->
         <div class="mb-3">
-            <label for="fileSurat" class="form-label">
-                File Surat Tugas <span class="text-danger">*</span>
-            </label>
-            <input type="file" class="form-control" name="fileSurat" id="fileSurat" accept="application/pdf" required>
-            <small id="fileSuratError" class="text-danger d-none">
-                File harus berformat PDF dan ukuran maksimal 2MB.
-            </small>
-        </div>
+    <label for="fileSurat" class="form-label">
+        File Surat Tugas <span class="text-danger">*</span>
+    </label>
+    <input type="file" class="form-control" id="fileSurat" accept="application/pdf" required>
+    <small id="fileSuratError" class="text-danger d-none">
+        Ukuran file maksimal 2MB. File harus berformat PDF dan ukuran maksimal 2MB.
+    </small>
+</div>
 
-        <div class="mb-3">
-            <label for="fileSertifikat" class="form-label">
-                File Sertifikat <span class="text-danger">*</span>
-            </label>
-            <input type="file" class="form-control" name="fileSertifikat" id="fileSertifikat" accept="application/pdf" required>
-            <small id="fileSertifikatError" class="text-danger d-none">
-                File harus berformat PDF dan ukuran maksimal 2MB.
-            </small>
-        </div>
+<div class="mb-3">
+    <label for="fileSertifikat" class="form-label">
+        File Sertifikat <span class="text-danger">*</span>
+    </label>
+    <input type="file" class="form-control" id="fileSertifikat" accept="application/pdf" required>
+    <small id="fileSertifikatError" class="text-danger d-none">
+        Ukuran file maksimal 2MB. File harus berformat PDF dan ukuran maksimal 2MB.
+    </small>
+</div>
 
-        <div class="mb-3">
-            <label for="fileKegiatan" class="form-label">
-                Foto Kegiatan <span class="text-danger">*</span>
-            </label>
-            <input type="file" class="form-control" name="fileKegiatan" id="fileKegiatan" accept="application/pdf" required>
-            <small id="fileKegiatanError" class="text-danger d-none">
-                File harus berformat PDF dan ukuran maksimal 2MB.
-            </small>
-        </div>
-        <div class="mb-3 text-end">
-            <button type="button" class="btn btn-secondary" onclick="history.back();">
-                Kembali
-            </button>
-            <button type="submit" class="btn btn-primary">
-                Simpan Prestasi
-            </button>
-        </div>
-    </form>
+<div class="mb-3">
+    <label for="fileKegiatan" class="form-label">
+        Foto Kegiatan <span class="text-danger">*</span>
+    </label>
+    <input type="file" class="form-control" id="fileKegiatan" accept="application/pdf" required>
+    <small id="fileKegiatanError" class="text-danger d-none">
+        Ukuran file maksimal 2MB. File harus berformat PDF dan ukuran maksimal 2MB.
+    </small>
 </div>
 
 <script>
-    function redirectToFormPrestasi() {
-        window.location.href = 'riwayat.php';
-    }
+    document.querySelectorAll('input[type="file"]').forEach(input => {
+        input.addEventListener('change', function () {
+            const file = this.files[0];
+            const errorElement = document.getElementById(this.id + 'Error');
+            if (file) {
+                const isPDF = file.type === "application/pdf";
+                const isSizeValid = file.size <= 2 * 1024 * 1024; // 2MB
+                
+                if (!isPDF || !isSizeValid) {
+                    errorElement.classList.remove('d-none');
+                    this.value = ''; // Clear the file input
+                } else {
+                    errorElement.classList.add('d-none');
+                }
+            }
+        });
+    });
 </script>
