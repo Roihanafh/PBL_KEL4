@@ -14,6 +14,43 @@ class PrestasiModel extends Model {
         }
         return false;
     }
+
+    public function getRiwayatPrestasiMahasiswa($nim) {
+        $sql = "
+            SELECT 
+                PM.Nim,
+                M.Nama,
+                P.JudulPrestasi,
+                P.TingkatPrestasi,
+                P.Peringkat,
+                YEAR(P.TanggalMulai) AS Tahun,
+                P.Status
+            FROM 
+                PrestasiMahasiswa PM
+            JOIN 
+                Mahasiswa M ON PM.Nim = M.Nim
+            JOIN 
+                Prestasi P ON PM.PrestasiId = P.PrestasiId
+            WHERE 
+                PM.Nim = ?
+            ORDER BY 
+                P.TanggalMulai DESC;
+        ";
+        
+        $params = [$nim];
+        $stmt = $this->query($sql, $params);
+        
+        if ($stmt) {
+            $results = [];
+            while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+                $results[] = $row;
+            }
+            return $results;
+        }
+    
+        return [];
+    }
+    
     
     public function addPrestasi($conn, $data) {
         // Query untuk insert data ke tabel PrestasiMahasiswa

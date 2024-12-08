@@ -21,12 +21,7 @@ $mahasiswaController = new MahasiswaController($conn, $nim);
 
 // Jika form disubmit, proses update data
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nama = $_POST['namaMahasiswa'];
-    $email = $_POST['emailMahasiswa'];
-    $telepon = $_POST['teleponMahasiswa'];
-    $alamat = $_POST['alamatMahasiswa'];
-
-    $message = $mahasiswaController->updateMahasiswaData($nama, $email, $telepon, $alamat);
+    $message = $mahasiswaController->processUpdate($_POST);
 }
 
 // Ambil data mahasiswa

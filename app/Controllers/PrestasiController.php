@@ -16,5 +16,9 @@ class PrestasiController {
     public function addPrestasi($conn, $data) {
         return $this->prestasiModel->addPrestasi($conn,$data);
     }
+
+    public function showRiwayat($nim) {
+        return $this->prestasiModel->getRiwayatPrestasiMahasiswa($nim);
+    }    
 }
 ?>

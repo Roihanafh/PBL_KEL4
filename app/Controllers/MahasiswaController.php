@@ -13,8 +13,24 @@ class MahasiswaController {
         return $this->mahasiswaModel->getData();
     }
 
-    public function updateMahasiswaData($nama, $email, $telepon, $alamat) {
-        return $this->mahasiswaModel->updateData($nama, $email, $telepon, $alamat);
+    public function updateMahasiswaData($data) {
+        return $this->mahasiswaModel->updateData(
+            $data['nama'], 
+            $data['email'], 
+            $data['telepon'], 
+            $data['alamat']
+        );
+    }
+
+    public function processUpdate($postData) {
+        $data = [
+            'nama' => $postData['namaMahasiswa'],
+            'email' => $postData['emailMahasiswa'],
+            'telepon' => $postData['teleponMahasiswa'],
+            'alamat' => $postData['alamatMahasiswa']
+        ];
+
+        return $this->updateMahasiswaData($data);
     }
 }
 ?>

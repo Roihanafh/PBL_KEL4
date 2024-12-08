@@ -1,43 +1,19 @@
 <?php
-// Include file koneksi
-include '../config/koneksi.php';
+require_once '../app/Controllers/PrestasiController.php';
 
-// Mulai session untuk mendapatkan NIM mahasiswa yang login
+// Mulai sesi untuk mendapatkan NIM yang sedang login
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-$nimLogin = $_SESSION['nim'];
 
-// Query untuk mengambil data prestasi mahasiswa yang login dengan tahun dari TanggalMulai
-$sql = "
-    SELECT 
-        PM.Nim,
-        M.Nama,
-        P.JudulPrestasi,
-        P.TingkatPrestasi,
-        P.Peringkat,
-        YEAR(P.TanggalMulai) AS Tahun, -- Mengambil tahun dari TanggalMulai
-        P.Status
-    FROM 
-        PrestasiMahasiswa PM
-    JOIN 
-        Mahasiswa M ON PM.Nim = M.Nim
-    JOIN 
-        Prestasi P ON PM.PrestasiId = P.PrestasiId
-    WHERE 
-        PM.Nim = ? -- Hanya mengambil data sesuai NIM mahasiswa yang login
-    ORDER BY 
-        P.TanggalMulai DESC;
-";
+include '../config/koneksi.php';
+$nim = $_SESSION['nim'];
 
-// Eksekusi query menggunakan prepared statement
-$params = array($nimLogin);
-$stmt = sqlsrv_query($conn, $sql, $params);
+$controller = new PrestasiController();
+$prestasiData = $controller->showRiwayat($nim);
 
-// Cek jika query gagal
-if ($stmt === false) {
-    die(print_r(sqlsrv_errors(), true));
-}
+require_once '../app/Views/riwayat.php';
+
 ?>
 
 <div class="riwayat">
@@ -65,22 +41,25 @@ if ($stmt === false) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    // Loop untuk menampilkan data dari query
-                    $no = 1;
-                    while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
-                        echo "<tr>";
-                        echo "<td>" . $no++ . "</td>";
-                        echo "<td>" . htmlspecialchars($row['Nim']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['Nama']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['JudulPrestasi']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['TingkatPrestasi']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['Peringkat']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['Tahun']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['Status']) . "</td>";
-                        echo "</tr>";
-                    }
-                    ?>
+                    <?php if (!empty($prestasiData)): ?>
+                        <?php $no = 1; ?>
+                        <?php foreach ($prestasiData as $row): ?>
+                            <tr>
+                                <td><?php echo $no++; ?></td>
+                                <td><?php echo htmlspecialchars($row['Nim']); ?></td>
+                                <td><?php echo htmlspecialchars($row['Nama']); ?></td>
+                                <td><?php echo htmlspecialchars($row['JudulPrestasi']); ?></td>
+                                <td><?php echo htmlspecialchars($row['TingkatPrestasi']); ?></td>
+                                <td><?php echo htmlspecialchars($row['Peringkat']); ?></td>
+                                <td><?php echo htmlspecialchars($row['Tahun']); ?></td>
+                                <td><?php echo htmlspecialchars($row['Status']); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="8" class="text-center">Data tidak ditemukan</td>
+                        </tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
