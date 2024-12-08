@@ -34,7 +34,7 @@ class PrestasiModel extends Model {
             WHERE 
                 PM.Nim = ?
             ORDER BY 
-                P.TanggalMulai DESC;
+                P.Status DESC;
         ";
         
         $params = [$nim];

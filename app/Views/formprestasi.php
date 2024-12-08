@@ -1,5 +1,7 @@
 <?php
 require_once '../app/Controllers/PrestasiController.php';
+require_once '../app/Controllers/MahasiswaController.php';
+require_once '../app/Controllers/DosenController.php';
 
 $prestasiController = new PrestasiController();
 if (session_status() == PHP_SESSION_NONE) {
@@ -17,29 +19,12 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'mahasiswa') {
 $nim = $_SESSION['nim'];
 
 // Query untuk mengambil data mahasiswa
-$sql = "SELECT * FROM Mahasiswa WHERE Nim = ?";
-$stmt = sqlsrv_prepare($conn, $sql, array(&$nim));
-$data = null;
-if (sqlsrv_execute($stmt)) {
-    $data = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
-} else {
-    echo "Terjadi kesalahan saat mengambil data mahasiswa: ";
-    print_r(sqlsrv_errors());
-    exit();
-}
+$mahasiswaController = new MahasiswaController($conn, $nim);
+$data = $mahasiswaController->getMahasiswaData();
 
-//query mengambil data dosen
-$sqlDosen = "SELECT Nip, Nama FROM Dosen";
-$stmtDosen = sqlsrv_prepare($conn, $sqlDosen);
+$dosenController = new DosenController($conn);
+$dataDosen = $dosenController->getDosenData();
 
-$dataDosen = [];
-if (sqlsrv_execute($stmtDosen)) {
-    while ($row = sqlsrv_fetch_array($stmtDosen, SQLSRV_FETCH_ASSOC)) {
-        $dataDosen[] = $row;
-    }
-} else {
-    die(print_r(sqlsrv_errors(), true)); // Debugging jika query gagal
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Pastikan semua form data diterima dan ditangani dengan benar
@@ -68,10 +53,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
 
         // Menyimpan data prestasi
-        $prestasiController->addPrestasi($conn,$data);
-        echo "Prestasi berhasil disimpan!";
+        $prestasiController->addPrestasi($conn, $data);
+
+        $prestasiData = $prestasiController->showRiwayat($nim);
+
+        require_once '../app/Views/riwayat.php';
+        exit(); // Jangan lupa untuk mengakhiri eksekusi script setelah redirect
     }
 }
+
 ?>
 
 <div class="formprestasi">
@@ -233,6 +223,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <script>
     function redirectToFormPrestasi() {
-        window.location.href = 'formprestasi.php';
+        window.location.href = 'riwayat.php';
     }
 </script>
