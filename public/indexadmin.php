@@ -1,4 +1,5 @@
 <?php
+session_start();
 $page = isset($_GET['page']) ? $_GET['page'] : 'home'; // Default to 'home' if no page is specified
 ?>
 <!DOCTYPE html>

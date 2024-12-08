@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Mendapatkan data dari form
     $data = [
-        'nim' => $_POST['nim'],
+        'nim' => $_GET['nim'],
         'judulPrestasi' => $_POST['judulPrestasi'],
         'tingkatPrestasi' => $_POST['tingkatPrestasi'],
         'tipePrestasi' => $_POST['tipePrestasi'],
@@ -39,24 +39,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Query untuk menyimpan data prestasi
     $sqlInsert = "
-        INSERT INTO Prestasi (
-            Nim, JudulPrestasi, TingkatPrestasi, TipePrestasi, 
-            TempatKompetisi, TanggalMulai, TanggalBerakhir, Peringkat, 
-            Url, DosenNip, FileSurat, FileSertifikat, FileKegiatan
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO Prestasi 
+        (Peringkat, Url, TanggalMulai, TanggalBerakhir, TempatKompetisi, JudulPrestasi, TingkatPrestasi, TipePrestasi, BuktiSuratTugas, BuktiSertif, FotoKegiatan, Status, DosenNip)
+        OUTPUT INSERTED.PrestasiId
+        VALUES 
+        (?, ?, ?, ?, ?, ?, ?, ?, CONVERT(VARBINARY(MAX), ?), CONVERT(VARBINARY(MAX), ?), CONVERT(VARBINARY(MAX), ?), ?,?)
     ";
     $params = [
-        $data['nim'], $data['judulPrestasi'], $data['tingkatPrestasi'], $data['tipePrestasi'],
-        $data['tempatKompetisi'], $data['tanggalMulai'], $data['tanggalBerakhir'], $data['peringkat'],
-        $data['url'], $data['dosenNip'], $data['fileSurat'], $data['fileSertifikat'], $data['fileKegiatan']
+        $data['peringkat'], $data['url'], $data['tanggalMulai'], $data['tanggalBerakhir'],
+        $data['tempatKompetisi'], $data['judulPrestasi'], $data['tingkatPrestasi'], $data['tipePrestasi'],
+        $data['fileSurat'], $data['fileSertifikat'], $data['fileKegiatan'], 'Valid', $data['dosenNip']
     ];
-    $stmtInsert = sqlsrv_query($conn, $sqlInsert, $params);
-
-    if ($stmtInsert === false) {
-        die(print_r(sqlsrv_errors(), true));
+    $stmtPrestasi = sqlsrv_query($conn, $sqlInsert, $params);
+    if ($stmtPrestasi === false) {
+        echo 'Error inserting data into Prestasi: ' . print_r(sqlsrv_errors(), true);
+        exit;  // Berhenti jika terjadi error pada insert Prestasi
+    }
+    if ($stmtPrestasi === false) {
+        echo 'Error inserting data into Prestasi: ' . print_r(sqlsrv_errors(), true);
+    } else {
+        // Ambil id_prestasi yang baru saja disisipkan dari hasil OUTPUT
+        $rowPrestasiId = sqlsrv_fetch_array($stmtPrestasi, SQLSRV_FETCH_ASSOC);
+    
+        if (!$rowPrestasiId || !isset($rowPrestasiId['PrestasiId'])) {
+            echo 'Failed to retrieve PrestasiId. Please check your query.';
+        } else {
+            $id_prestasi = $rowPrestasiId['PrestasiId'];
+    
+            // Query untuk menyisipkan ke tabel PrestasiMahasiswa
+            $queryMahasiswa = "
+                INSERT INTO PrestasiMahasiswa (PrestasiId, Nim) VALUES (?, ?)
+            ";
+            $paramsMahasiswa = array($id_prestasi, $data['nim']);
+    
+            // Eksekusi query untuk tabel PrestasiMahasiswa
+            $stmtMahasiswa = sqlsrv_query($conn, $queryMahasiswa, $paramsMahasiswa);
+    
+            if ($stmtMahasiswa === false) {
+                echo 'Error inserting data into PrestasiMahasiswa: ' . print_r(sqlsrv_errors(), true);
+            } else {
+                echo 'Prestasi mahasiswa berhasil disimpan.';
+                
+            }
+        }
     }
 
-    echo "<script>alert('Prestasi berhasil ditambahkan!'); window.location.href = 'data_mahasiswa.php';</script>";
+    echo "<script>alert('Prestasi berhasil ditambahkan!'); window.location.href = 'dataallmahasiswa.php';</script>";
     exit;
 }
 
@@ -100,12 +128,22 @@ if ($stmtMahasiswa === false || !($mahasiswa = sqlsrv_fetch_array($stmtMahasiswa
 
             <div class="mb-3">
                 <label for="tingkatPrestasi" class="form-label">Tingkat Prestasi</label>
-                <input type="text" class="form-control" id="tingkatPrestasi" name="tingkatPrestasi" required>
+                <select class="form-select" name="tingkatPrestasi" id="tingkatPrestasi" required>
+                    <option selected disabled>Pilih Tingkat Kompetisi</option>
+                    <option value="Kabupaten/Kota">Kabupaten/Kota</option>
+                    <option value="Provinsi">Provinsi</option>
+                    <option value="Nasional">Nasional</option>
+                    <option value="Internasional">Internasional</option>
+                </select>
             </div>
 
             <div class="mb-3">
                 <label for="tipePrestasi" class="form-label">Tipe Prestasi</label>
-                <input type="text" class="form-control" id="tipePrestasi" name="tipePrestasi" required>
+                <select class="form-select" name="tipePrestasi" id="tipePrestasi" required>
+                <option selected disabled>Pilih Jenis Prestasi</option>
+                <option value="Individu">Individu</option>
+                <option value="Kelompok">Kelompok</option>
+            </select>
             </div>
 
             <div class="mb-3">
