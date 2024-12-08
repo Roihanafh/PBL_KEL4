@@ -88,25 +88,12 @@ if ($stmtMahasiswa === false) {
                     <th>Email</th>
                     <th>Jumlah Lomba Diikuti</th>
                     <th>Total Poin</th>
+                    <th>Jenis prestasi</th>
+                    <th>Sertifikat</th>
                 </tr>
             </thead>
             <tbody>
-                <?php
-                $no = 1;
-                while ($row = sqlsrv_fetch_array($stmtMahasiswa, SQLSRV_FETCH_ASSOC)) {
-                    echo "<tr>";
-                    echo "<td>" . $no++ . "</td>";
-                    echo "<td>" . htmlspecialchars($row['NamaMahasiswa']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['Nim']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['Email']) . "</td>";
-                    echo "<td>" . $row['JumlahLombaDiikuti'] . "</td>";
-                    echo "<td>" . $row['TotalPoin'] . "</td>";
-                    echo "</tr>";
-                }
-
-                sqlsrv_free_stmt($stmtMahasiswa);
-                ?>
-            </tbody>
+                
         </table>
     </div>
 </div>
