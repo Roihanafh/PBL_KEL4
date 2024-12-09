@@ -1,63 +1,75 @@
 <?php
 // Include file koneksi
 include '../config/koneksi.php';
+// Fungsi untuk menghitung poin
+function hitungPoin($tingkat, $peringkat) {
+    $poin = 0;
 
+    // Trim spasi di sekitar peringkat
+    $peringkat = trim($peringkat);
+
+    switch ($tingkat) {
+        case "Internasional":
+            switch ($peringkat) {
+                case 1: $poin = 30; break;
+                case 2: $poin = 29; break;
+                case 3: $poin = 28; break;
+                case 4: $poin = 27; break;
+                case 5: $poin = 26; break;
+                default: $poin = 0; break;
+            }
+            break;
+
+        case "Nasional":
+            switch ($peringkat) {
+                case 1: $poin = 20; break;
+                case 2: $poin = 19; break;
+                case 3: $poin = 18; break;
+                case 4: $poin = 17; break;
+                case 5: $poin = 16; break;
+                default: $poin = 0; break;
+            }
+            break;
+
+        case "Provinsi":
+            switch ($peringkat) {
+                case 1: $poin = 15; break;
+                case 2: $poin = 14; break;
+                case 3: $poin = 13; break;
+                case 4: $poin = 12; break;
+                case 5: $poin = 11; break;
+                default: $poin = 0; break;
+            }
+            break;
+
+        case "Kabupaten/Kota":
+            switch ($peringkat) {
+                case 1: $poin = 10; break;
+                case 2: $poin = 9; break;
+                case 3: $poin = 8; break;
+                case 4: $poin = 7; break;
+                case 5: $poin = 6; break;
+                default: $poin = 0; break;
+            }
+            break;
+
+        default:
+            $poin = 0; // Jika tingkat tidak valid
+            break;
+    }
+
+    return $poin;
+}
 // Query untuk mengambil data ranking mahasiswa
 $sql = "
     SELECT 
-        ROW_NUMBER() OVER (ORDER BY SUM(
-            CASE 
-                WHEN P.TingkatPrestasi = 'Kabupaten/Kota' THEN 
-                    CASE 
-                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 6 - P.Peringkat
-                        ELSE 0 
-                    END
-                WHEN P.TingkatPrestasi = 'Provinsi' THEN 
-                    CASE 
-                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 11 - P.Peringkat
-                        ELSE 0 
-                    END
-                WHEN P.TingkatPrestasi = 'Nasional' THEN 
-                    CASE 
-                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 16 - P.Peringkat
-                        ELSE 0 
-                    END
-                WHEN P.TingkatPrestasi = 'Internasional' THEN 
-                    CASE 
-                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 31 - P.Peringkat
-                        ELSE 0 
-                    END
-                ELSE 0
-            END
-        ) DESC) AS Peringkat,
+        ROW_NUMBER() OVER (ORDER BY SUM(P.Poin) DESC) AS Peringkat,
         M.Nama AS NamaMahasiswa,
         M.Nim AS NimMahasiswa,
         COUNT(*) AS JumlahLombaDiikuti,
-        SUM(
-            CASE 
-                WHEN P.TingkatPrestasi = 'Kabupaten/Kota' THEN 
-                    CASE 
-                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 6 - P.Peringkat
-                        ELSE 0 
-                    END
-                WHEN P.TingkatPrestasi = 'Provinsi' THEN 
-                    CASE 
-                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 11 - P.Peringkat
-                        ELSE 0 
-                    END
-                WHEN P.TingkatPrestasi = 'Nasional' THEN 
-                    CASE 
-                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 16 - P.Peringkat
-                        ELSE 0 
-                    END
-                WHEN P.TingkatPrestasi = 'Internasional' THEN 
-                    CASE 
-                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 31 - P.Peringkat
-                        ELSE 0 
-                    END
-                ELSE 0
-            END
-        ) AS TotalPoin
+        SUM(P.Poin) AS TotalPoin,
+        P.TingkatPrestasi,
+        P.Peringkat as PeringkatPrestasi
     FROM 
         Mahasiswa M
     JOIN 
@@ -72,6 +84,7 @@ $sql = "
         TotalPoin DESC;
 ";
 
+
 // Eksekusi query untuk mendapatkan data
 $stmt = sqlsrv_query($conn, $sql);
 
@@ -83,7 +96,7 @@ if ($stmt === false) {
 // Simpan TotalPoin ke kolom Poin dalam tabel Prestasi
 while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
     $nim = $row['NimMahasiswa'];
-    $totalPoin = $row['TotalPoin'];
+    $poin= hitungPoin($row['TingkatPrestasi'], $row['PeringkatPrestasi']);
 
     // Update Poin di tabel Prestasi berdasarkan NimMahasiswa dan PrestasiId
     $updateSql = "
@@ -94,7 +107,7 @@ while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
         WHERE PM.Nim = ? AND P.Status = 'Valid';
     ";
 
-    $params = [$totalPoin, $nim];
+    $params = [$poin, $nim];
     $updateStmt = sqlsrv_query($conn, $updateSql, $params);
 
     if ($updateStmt === false) {
