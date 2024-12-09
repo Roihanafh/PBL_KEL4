@@ -74,18 +74,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Menyimpan data prestasi
             $prestasiController->addPrestasi($conn, $data);
-
-            $prestasiData = $prestasiController->showRiwayat($nim);
-
-            require_once '../app/Views/riwayat.php';
-            exit(); // Jangan lupa untuk mengakhiri eksekusi script setelah redirect
-        } else {
-            // Jika file tidak valid
-            $errorMessage = "Pastikan semua file berformat PDF dan tidak lebih dari 2MB.";
-        }
+            header('Location: http://localhost/PBL_KEL4/public/indexmhs.php?page=prestasi');
+            exit();
     }
 }
-
+}
 ?>
 
 <div class="formprestasi">
