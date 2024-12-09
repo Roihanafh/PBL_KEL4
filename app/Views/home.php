@@ -60,7 +60,7 @@ function hitungPoin($tingkat, $peringkat) {
 
     return $poin;
 }
-// Query untuk mengambil data ranking mahasiswa
+//mengambil data prestasi
 $sql = "
     SELECT 
         M.Nim AS NimMahasiswa,
@@ -77,7 +77,7 @@ $sql = "
         P.Status = 'Valid';
 ";
 
-
+// Query untuk mengambil data ranking mahasiswa
 $sqlTampilRank = "
     SELECT 
         ROW_NUMBER() OVER (ORDER BY SUM(P.Poin) DESC) AS Peringkat,

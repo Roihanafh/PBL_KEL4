@@ -1,6 +1,63 @@
 <?php
 include '../../config/koneksi.php';
+function hitungPoin($tingkat, $peringkat) {
+    $poin = 0;
 
+    // Trim spasi di sekitar peringkat
+    $peringkat = trim($peringkat);
+
+    switch ($tingkat) {
+        case "Internasional":
+            switch ($peringkat) {
+                case 1: $poin = 30; break;
+                case 2: $poin = 29; break;
+                case 3: $poin = 28; break;
+                case 4: $poin = 27; break;
+                case 5: $poin = 26; break;
+                default: $poin = 0; break;
+            }
+            break;
+
+        case "Nasional":
+            switch ($peringkat) {
+                case 1: $poin = 20; break;
+                case 2: $poin = 19; break;
+                case 3: $poin = 18; break;
+                case 4: $poin = 17; break;
+                case 5: $poin = 16; break;
+                default: $poin = 0; break;
+            }
+            break;
+
+        case "Provinsi":
+            switch ($peringkat) {
+                case 1: $poin = 15; break;
+                case 2: $poin = 14; break;
+                case 3: $poin = 13; break;
+                case 4: $poin = 12; break;
+                case 5: $poin = 11; break;
+                default: $poin = 0; break;
+            }
+            break;
+
+        case "Kabupaten/Kota":
+            switch ($peringkat) {
+                case 1: $poin = 10; break;
+                case 2: $poin = 9; break;
+                case 3: $poin = 8; break;
+                case 4: $poin = 7; break;
+                case 5: $poin = 6; break;
+                default: $poin = 0; break;
+            }
+            break;
+
+        default:
+            $poin = 0; // Jika tingkat tidak valid
+            break;
+    }
+
+    return $poin;
+}
 // Ambil ID Prestasi dari URL
 $prestasiId = $_GET['prestasi_id'] ?? null;
 
@@ -44,6 +101,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($statusQuery)) {
         $statusStmt = sqlsrv_query($conn, $statusQuery, $params);
         if ($statusStmt === false) {
+            die(print_r(sqlsrv_errors(), true));
+        }
+        //menghitung poin
+        $poin= hitungPoin($stmt['TingkatPrestasi'], $stmt['Peringkat']);
+        $prestasiId = $stmt['PrestasiId'];
+
+        // Update Poin di tabel Prestasi berdasarkan NimMahasiswa dan PrestasiId
+        $updateSql = "
+            UPDATE P SET 
+                P.Poin = ?
+            FROM Prestasi P
+            JOIN PrestasiMahasiswa PM ON P.PrestasiId = PM.PrestasiId
+            WHERE P.Status = 'Valid' AND P.PrestasiId = ?;
+            ";
+
+        $params = [$poin, $nim, $prestasiId];
+        $updateStmt = sqlsrv_query($conn, $updateSql, $params);
+
+        if ($updateStmt === false) {
             die(print_r(sqlsrv_errors(), true));
         }
         // Redirect untuk memastikan perubahan berhasil
