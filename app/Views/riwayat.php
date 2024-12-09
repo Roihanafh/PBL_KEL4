@@ -41,32 +41,53 @@ require_once '../app/Views/riwayat.php';
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (!empty($prestasiData)): ?>
-                        <?php $no = 1; ?>
-                        <?php foreach ($prestasiData as $row): ?>
-                            <tr>
-                                <td><?php echo $no++; ?></td>
-                                <td><?php echo htmlspecialchars($row['Nim']); ?></td>
-                                <td><?php echo htmlspecialchars($row['Nama']); ?></td>
-                                <td><?php echo htmlspecialchars($row['JudulPrestasi']); ?></td>
-                                <td><?php echo htmlspecialchars($row['TingkatPrestasi']); ?></td>
-                                <td><?php echo htmlspecialchars($row['Peringkat']); ?></td>
-                                <td><?php echo htmlspecialchars($row['Tahun']); ?></td>
-                                <td><?php echo htmlspecialchars($row['Status']); ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="8" class="text-center">Data tidak ditemukan</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
+    <?php if (!empty($prestasiData)): ?>
+        <?php $no = 1; ?>
+        <?php foreach ($prestasiData as $row): ?>
+            <tr>
+                <td><?php echo $no++; ?></td>
+                <td><?php echo htmlspecialchars($row['Nim']); ?></td>
+                <td><?php echo htmlspecialchars($row['Nama']); ?></td>
+                <td><?php echo htmlspecialchars($row['JudulPrestasi']); ?></td>
+                <td><?php echo htmlspecialchars($row['TingkatPrestasi']); ?></td>
+                <td><?php echo htmlspecialchars($row['Peringkat']); ?></td>
+                <td><?php echo htmlspecialchars($row['Tahun']); ?></td>
+                <td>
+                    <?php 
+                        $status = htmlspecialchars($row['Status']);
+                        if ($status != 'Valid') {
+                            echo '<span class="text-danger">
+                                Status Tidak Valid - 
+                                <a href="mailto:zilanzalilan18@gmail.com?subject=Status Tidak Valid&body=Halo admin, mohon bantuan terkait status prestasi saya. Berikut detail prestasi: Nama: ' . htmlspecialchars($row['Nama']) . ', NIM: ' . htmlspecialchars($row['Nim']) . '" class="btn btn-sm btn-danger">
+                                Hubungi Admin</a>
+                            </span>';
+                        } else {
+                            echo $status;
+                        }
+                    ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <tr>
+            <td colspan="8" class="text-center">Data tidak ditemukan</td>
+        </tr>
+    <?php endif; ?>
+</tbody>
             </table>
         </div>
     </div>
 </div>
 <script>
     $(document).ready(function() {
+        // Cek setiap baris apakah status tidak valid
+        $('#dataPrestasi tbody tr').each(function() {
+            var status = $(this).find('td:last').text().trim(); // Mengambil teks dari kolom status
+            if (status !== 'Valid') {
+                alert('Status Tidak Valid - Hubungi Admin');
+            }
+        });
+
         $('#dataPrestasi').DataTable({
             "paging": true,
             "lengthChange": true,
@@ -93,4 +114,6 @@ require_once '../app/Views/riwayat.php';
         });
     });
 </script>
+
+
 

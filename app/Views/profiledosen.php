@@ -84,7 +84,33 @@ if ($stmt && sqlsrv_execute($stmt)) {
         
         <!-- Tombol Aksi -->
         <div class="text-end">
-            <button type="submit" class="btn btn-success">Simpan Perubahan</button>
-        </div>
+    <button type="button" id="ubahDataBtn" class="btn btn-primary">Ubah Data</button>
+    <button type="submit" id="simpanDataBtn" class="btn btn-success" style="display: none;">Simpan Perubahan</button>
+</div>
     </form>
 </div>
+
+<script>
+    const ubahButton = document.getElementById('ubahDataBtn');
+    const simpanButton = document.getElementById('simpanDataBtn');
+    const inputs = document.querySelectorAll('#namaMahasiswa, #emailMahasiswa, #teleponMahasiswa, #alamatMahasiswa');
+
+    // Saat tombol "Ubah Data" diklik
+    ubahButton.addEventListener('click', function () {
+        inputs.forEach(input => input.disabled = false); // Aktifkan input
+        ubahButton.style.display = 'none'; // Sembunyikan tombol "Ubah Data"
+        simpanButton.style.display = 'inline-block'; // Tampilkan tombol "Simpan Perubahan"
+    });
+
+    // Saat tombol "Simpan Perubahan" diklik (form disubmit)
+    simpanButton.addEventListener('click', function () {
+        inputs.forEach(input => input.disabled = true); // Nonaktifkan input
+        ubahButton.style.display = 'inline-block'; // Tampilkan tombol "Ubah Data"
+        simpanButton.style.display = 'none'; // Sembunyikan tombol "Simpan Perubahan"
+    });
+</script>
+
+
+
+
+
