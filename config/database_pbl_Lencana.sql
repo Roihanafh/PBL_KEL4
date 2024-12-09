@@ -193,6 +193,7 @@ SET NoTelp = '0810101010', Alamat = 'Jl. Dahlia No. 11, Solo' WHERE Nim = 'NIM01
 -- hapus data yang ada pada prestasi
 DELETE FROM PrestasiMahasiswa;
 DELETE FROM Prestasi;
+DBCC CHECKIDENT ('Prestasi', RESEED, 0);
 
 
 
