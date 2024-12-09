@@ -14,14 +14,20 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'mahasiswa') {
 
 // Ambil NIM dari session
 $nim = $_SESSION['nim'];
-$message = null;
+$successMessage = null;
+$errorMessage = null;
 
 // Inisialisasi controller
 $mahasiswaController = new MahasiswaController($conn, $nim);
 
 // Jika form disubmit, proses update data
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $message = $mahasiswaController->processUpdate($_POST);
+    $result = $mahasiswaController->processUpdate($_POST);
+    if ($result) {
+        $successMessage = "Data berhasil diperbarui.";
+    } else {
+        $errorMessage = "Terjadi kesalahan saat memperbarui data.";
+    }
 }
 
 // Ambil data mahasiswa
@@ -31,35 +37,46 @@ $data = $mahasiswaController->getMahasiswaData();
 <div class="profilemhs">
     <p>Profile Saya</p>
     <hr class="line">
+    <?php if ($successMessage) : ?>
+        <div class="alert alert-success"><?= htmlspecialchars($successMessage) ?></div>
+    <?php endif; ?>
+    <?php if ($errorMessage) : ?>
+        <div class="alert alert-danger"><?= htmlspecialchars($errorMessage) ?></div>
+    <?php endif; ?>
     <form method="POST">
         <!-- Nama Mahasiswa -->
         <div class="mb-3">
             <label for="namaMahasiswa" class="form-label">Nama Mahasiswa</label>
-            <input type="text" name="namaMahasiswa" id="namaMahasiswa" class="form-control" value="<?php echo $data['Nama']; ?>" disabled>
+            <input type="text" name="namaMahasiswa" id="namaMahasiswa" class="form-control" 
+                   value="<?= htmlspecialchars($data['Nama']) ?>" disabled>
         </div>
 
         <!-- NIM -->
         <div class="mb-3">
             <label for="nimMahasiswa" class="form-label">NIM</label>
-            <input type="text" name="nimMahasiswa" id="nimMahasiswa" class="form-control" value="<?php echo $data['Nim']; ?>" disabled>
+            <input type="text" name="nimMahasiswa" id="nimMahasiswa" class="form-control" 
+                   value="<?= htmlspecialchars($data['Nim']) ?>" disabled>
         </div>
 
         <!-- Email -->
         <div class="mb-3">
             <label for="emailMahasiswa" class="form-label">Email</label>
-            <input type="email" name="emailMahasiswa" id="emailMahasiswa" class="form-control" value="<?php echo $data['Email']; ?>" disabled>
+            <input type="email" name="emailMahasiswa" id="emailMahasiswa" class="form-control" 
+                   value="<?= htmlspecialchars($data['Email']) ?>" disabled>
         </div>
 
         <!-- Nomor Telepon -->
         <div class="mb-3">
             <label for="teleponMahasiswa" class="form-label">Nomor Telepon</label>
-            <input type="text" name="teleponMahasiswa" id="teleponMahasiswa" class="form-control" value="<?php echo $data['NoTelp']; ?>" disabled>
+            <input type="text" name="teleponMahasiswa" id="teleponMahasiswa" class="form-control" 
+                   value="<?= htmlspecialchars($data['NoTelp']) ?>" disabled>
         </div>
 
         <!-- Alamat -->
         <div class="mb-3">
             <label for="alamatMahasiswa" class="form-label">Alamat</label>
-            <textarea name="alamatMahasiswa" id="alamatMahasiswa" class="form-control" rows="3" disabled><?php echo $data['Alamat']; ?></textarea>
+            <textarea name="alamatMahasiswa" id="alamatMahasiswa" class="form-control" rows="3" 
+                      disabled><?= htmlspecialchars($data['Alamat']) ?></textarea>
         </div>
 
         <!-- Tombol Aksi -->
@@ -71,12 +88,6 @@ $data = $mahasiswaController->getMahasiswaData();
 </div>
 
 <script>
-    // Ambil pesan dari PHP
-    const message = <?php echo json_encode($message); ?>;
-    if (message) {
-        alert(message); // Tampilkan pop-up
-    }
-
     const ubahButton = document.getElementById('ubahDataBtn');
     const simpanButton = document.getElementById('simpanDataBtn');
     const inputs = document.querySelectorAll('#namaMahasiswa, #emailMahasiswa, #teleponMahasiswa, #alamatMahasiswa');
