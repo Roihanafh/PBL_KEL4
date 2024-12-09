@@ -28,15 +28,20 @@ if ($rowDosen = sqlsrv_fetch_array($stmtDosen, SQLSRV_FETCH_ASSOC)) {
     $namaDosen = $rowDosen['Nama'];
 }
 
-// Query untuk mendapatkan mahasiswa bimbingan dan prestasi
+// Query untuk mendapatkan data mahasiswa dan prestasi mereka
 $sqlMahasiswa = "
     SELECT 
-        ROW_NUMBER() OVER (ORDER BY SUM(P.Poin) DESC) AS Ranking,
         M.Nama AS NamaMahasiswa,
         M.Nim,
         M.Email,
-        COUNT(PM.PrestasiId) AS JumlahLombaDiikuti,
-        SUM(P.Poin) AS TotalPoin
+        P.JudulPrestasi,
+        P.TanggalMulai,
+        P.TanggalBerakhir,
+        P.Poin,
+        P.TingkatPrestasi,
+        P.TipePrestasi,
+        p.BuktiSertif,
+        p.PrestasiId
     FROM 
         Mahasiswa M
     JOIN 
@@ -45,10 +50,8 @@ $sqlMahasiswa = "
         Prestasi P ON PM.PrestasiId = P.PrestasiId
     WHERE 
         P.Status = 'Valid' AND P.DosenNip = ?
-    GROUP BY 
-        M.Nama, M.Nim, M.Email
     ORDER BY    
-        TotalPoin DESC;
+        M.Nama, P.TanggalMulai DESC;
 ";
 
 $stmtMahasiswa = sqlsrv_prepare($conn, $sqlMahasiswa, [$nipDosen]);
@@ -86,14 +89,51 @@ if ($stmtMahasiswa === false) {
                     <th>Nama Mahasiswa</th>
                     <th>NIM</th>
                     <th>Email</th>
-                    <th>Jumlah Lomba Diikuti</th>
-                    <th>Total Poin</th>
-                    <th>Jenis prestasi</th>
+                    <th>Judul Prestasi</th>
+                    <th>Tanggal Mulai</th>
+                    <th>Tanggal Berakhir</th>
+                    <th>Poin</th>
+                    <th>Tingkat</th>
+                    <th>Tipe</th>
                     <th>Sertifikat</th>
                 </tr>
             </thead>
             <tbody>
-                
+                <?php
+                $no = 1;
+                $currentNim = ''; // Variabel untuk melacak NIM terakhir
+                while ($row = sqlsrv_fetch_array($stmtMahasiswa, SQLSRV_FETCH_ASSOC)) {
+                    echo '<tr>';
+                    if ($currentNim != $row['Nim']) {
+                        echo "<td>{$no}</td>";
+                        echo "<td>" . htmlspecialchars($row['NamaMahasiswa']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Nim']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Email']) . "</td>";
+                        $currentNim = $row['Nim'];
+                        $no++;
+                    } else {
+                        // Jika NIM sama, kolom nama mahasiswa, NIM, dan email dibiarkan kosong
+                        echo '<td></td><td></td><td></td><td></td>';
+                    }
+                    echo "<td>" . htmlspecialchars($row['JudulPrestasi']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['TanggalMulai']->format('Y-m-d')) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['TanggalBerakhir']->format('Y-m-d')) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['Poin']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['TingkatPrestasi']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['TipePrestasi']) . "</td>";
+
+                    // Tambahkan kolom untuk tombol download sertifikat
+                    if (!empty($row['BuktiSertif'])) {
+                        $encodedCert = base64_encode($row['BuktiSertif']);
+                        echo "<td><a href='data:application/octet-stream;base64,$encodedCert' download='bukti_sertif_" . htmlspecialchars($row['PrestasiId']) . ".pdf' class='btn btn-primary btn-sm'>Download</a></td>";
+                    } else {
+                        echo "<td><span class='text-muted'>Tidak tersedia</span></td>";
+                    }
+
+                    echo '</tr>';
+                }
+                ?>
+            </tbody>
         </table>
     </div>
 </div>
