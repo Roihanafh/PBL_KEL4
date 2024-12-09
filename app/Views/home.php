@@ -31,6 +31,7 @@ $sql = "
             END
         ) DESC) AS Peringkat,
         M.Nama AS NamaMahasiswa,
+        M.Nim AS NimMahasiswa,
         COUNT(*) AS JumlahLombaDiikuti,
         SUM(
             CASE 
@@ -66,17 +67,48 @@ $sql = "
     WHERE 
         P.Status = 'Valid'  -- Hanya mengambil Prestasi yang statusnya 'Valid'
     GROUP BY 
-        M.Nama
+        M.Nama, M.Nim
     ORDER BY    
         TotalPoin DESC;
 ";
 
+// Eksekusi query untuk mendapatkan data
 $stmt = sqlsrv_query($conn, $sql);
 
 // Cek jika query gagal
 if ($stmt === false) {
     die(print_r(sqlsrv_errors(), true));
 }
+
+// Simpan TotalPoin ke kolom Poin dalam tabel Prestasi
+while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+    $nim = $row['NimMahasiswa'];
+    $totalPoin = $row['TotalPoin'];
+
+    // Update Poin di tabel Prestasi berdasarkan NimMahasiswa dan PrestasiId
+    $updateSql = "
+        UPDATE P SET 
+            P.Poin = ?
+        FROM Prestasi P
+        JOIN PrestasiMahasiswa PM ON P.PrestasiId = PM.PrestasiId
+        WHERE PM.Nim = ? AND P.Status = 'Valid';
+    ";
+
+    $params = [$totalPoin, $nim];
+    $updateStmt = sqlsrv_query($conn, $updateSql, $params);
+
+    if ($updateStmt === false) {
+        die(print_r(sqlsrv_errors(), true));
+    }
+}
+
+// Jalankan query untuk menampilkan data setelah update
+$stmt = sqlsrv_query($conn, $sql);  // Jalankan kembali query untuk menampilkan data terbaru
+if ($stmt === false) {
+    die(print_r(sqlsrv_errors(), true));
+}
+
+
 ?>
 
 <div class="content-wrapper">
@@ -98,6 +130,7 @@ if ($stmt === false) {
                 <tbody>
                     <?php
                     // Loop untuk menampilkan data dari query
+                    sqlsrv_execute($stmt); // Jalankan ulang query untuk display
                     while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
                         echo "<tr>";
                         echo "<td>" . $row['Peringkat'] . "</td>";
