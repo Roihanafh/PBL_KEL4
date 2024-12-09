@@ -17,52 +17,63 @@ while ($row = sqlsrv_fetch_array($stmtDosen, SQLSRV_FETCH_ASSOC)) {
 // Fungsi untuk menghitung poin
 function hitungPoin($tingkat, $peringkat) {
     $poin = 0;
+
+    // Trim spasi di sekitar peringkat
+    $peringkat = trim($peringkat);
+
     switch ($tingkat) {
         case "Internasional":
-            $poin = match ($peringkat) {
-                1 => 26,
-                2 => 25,
-                3 => 24,
-                4 => 23,
-                5 => 22,
-                default => 0 // Tidak ada poin jika peringkat lebih dari 5
-            };
+            switch ($peringkat) {
+                case 1: $poin = 30; break;
+                case 2: $poin = 29; break;
+                case 3: $poin = 28; break;
+                case 4: $poin = 27; break;
+                case 5: $poin = 26; break;
+                default: $poin = 0; break;
+            }
             break;
+
         case "Nasional":
-            $poin = match ($peringkat) {
-                1 => 20,
-                2 => 19,
-                3 => 18,
-                4 => 17,
-                5 => 16,
-                default => 0
-            };
+            switch ($peringkat) {
+                case 1: $poin = 20; break;
+                case 2: $poin = 19; break;
+                case 3: $poin = 18; break;
+                case 4: $poin = 17; break;
+                case 5: $poin = 16; break;
+                default: $poin = 0; break;
+            }
             break;
+
         case "Provinsi":
-            $poin = match ($peringkat) {
-                1 => 15,
-                2 => 14,
-                3 => 13,
-                4 => 12,
-                5 => 11,
-                default => 0
-            };
+            switch ($peringkat) {
+                case 1: $poin = 15; break;
+                case 2: $poin = 14; break;
+                case 3: $poin = 13; break;
+                case 4: $poin = 12; break;
+                case 5: $poin = 11; break;
+                default: $poin = 0; break;
+            }
             break;
+
         case "Kabupaten/Kota":
-            $poin = match ($peringkat) {
-                1 => 10,
-                2 => 9,
-                3 => 8,
-                4 => 7,
-                5 => 6,
-                default => 0
-            };
+            switch ($peringkat) {
+                case 1: $poin = 10; break;
+                case 2: $poin = 9; break;
+                case 3: $poin = 8; break;
+                case 4: $poin = 7; break;
+                case 5: $poin = 6; break;
+                default: $poin = 0; break;
+            }
             break;
+
         default:
             $poin = 0; // Jika tingkat tidak valid
+            break;
     }
+
     return $poin;
 }
+
 
 
 // Jika form disubmit
