@@ -5,10 +5,58 @@ include '../config/koneksi.php';
 // Query untuk mengambil data ranking mahasiswa
 $sql = "
     SELECT 
-    ROW_NUMBER() OVER (ORDER BY SUM(P.Poin) DESC) AS Ranking,
-    M.Nama AS NamaMahasiswa,
-    COUNT(*) AS JumlahLombaDiikuti,
-    SUM(P.Poin) AS TotalPoin
+        ROW_NUMBER() OVER (ORDER BY SUM(
+            CASE 
+                WHEN P.TingkatPrestasi = 'Kabupaten/Kota' THEN 
+                    CASE 
+                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 6 - P.Peringkat
+                        ELSE 0 
+                    END
+                WHEN P.TingkatPrestasi = 'Provinsi' THEN 
+                    CASE 
+                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 11 - P.Peringkat
+                        ELSE 0 
+                    END
+                WHEN P.TingkatPrestasi = 'Nasional' THEN 
+                    CASE 
+                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 16 - P.Peringkat
+                        ELSE 0 
+                    END
+                WHEN P.TingkatPrestasi = 'Internasional' THEN 
+                    CASE 
+                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 31 - P.Peringkat
+                        ELSE 0 
+                    END
+                ELSE 0
+            END
+        ) DESC) AS Peringkat,
+        M.Nama AS NamaMahasiswa,
+        COUNT(*) AS JumlahLombaDiikuti,
+        SUM(
+            CASE 
+                WHEN P.TingkatPrestasi = 'Kabupaten/Kota' THEN 
+                    CASE 
+                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 6 - P.Peringkat
+                        ELSE 0 
+                    END
+                WHEN P.TingkatPrestasi = 'Provinsi' THEN 
+                    CASE 
+                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 11 - P.Peringkat
+                        ELSE 0 
+                    END
+                WHEN P.TingkatPrestasi = 'Nasional' THEN 
+                    CASE 
+                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 16 - P.Peringkat
+                        ELSE 0 
+                    END
+                WHEN P.TingkatPrestasi = 'Internasional' THEN 
+                    CASE 
+                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 31 - P.Peringkat
+                        ELSE 0 
+                    END
+                ELSE 0
+            END
+        ) AS TotalPoin
     FROM 
         Mahasiswa M
     JOIN 
@@ -21,7 +69,6 @@ $sql = "
         M.Nama
     ORDER BY    
         TotalPoin DESC;
-
 ";
 
 $stmt = sqlsrv_query($conn, $sql);
@@ -53,7 +100,7 @@ if ($stmt === false) {
                     // Loop untuk menampilkan data dari query
                     while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
                         echo "<tr>";
-                        echo "<td>" . $row['Ranking'] . "</td>";
+                        echo "<td>" . $row['Peringkat'] . "</td>";
                         echo "<td>" . htmlspecialchars($row['NamaMahasiswa']) . "</td>";
                         echo "<td>" . $row['JumlahLombaDiikuti'] . "</td>";
                         echo "<td>" . $row['TotalPoin'] . "</td>";
