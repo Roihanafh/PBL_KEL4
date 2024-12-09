@@ -15,7 +15,8 @@ while ($row = sqlsrv_fetch_array($stmtDosen, SQLSRV_FETCH_ASSOC)) {
 
 
 // Fungsi untuk menghitung poin
-function hitungPoin($tingkat, $peringkat) {
+function hitungPoin($tingkat, $peringkat)
+{
     $poin = 0;
 
     // Trim spasi di sekitar peringkat
@@ -24,45 +25,93 @@ function hitungPoin($tingkat, $peringkat) {
     switch ($tingkat) {
         case "Internasional":
             switch ($peringkat) {
-                case 1: $poin = 30; break;
-                case 2: $poin = 29; break;
-                case 3: $poin = 28; break;
-                case 4: $poin = 27; break;
-                case 5: $poin = 26; break;
-                default: $poin = 0; break;
+                case 1:
+                    $poin = 30;
+                    break;
+                case 2:
+                    $poin = 29;
+                    break;
+                case 3:
+                    $poin = 28;
+                    break;
+                case 4:
+                    $poin = 27;
+                    break;
+                case 5:
+                    $poin = 26;
+                    break;
+                default:
+                    $poin = 0;
+                    break;
             }
             break;
 
         case "Nasional":
             switch ($peringkat) {
-                case 1: $poin = 20; break;
-                case 2: $poin = 19; break;
-                case 3: $poin = 18; break;
-                case 4: $poin = 17; break;
-                case 5: $poin = 16; break;
-                default: $poin = 0; break;
+                case 1:
+                    $poin = 20;
+                    break;
+                case 2:
+                    $poin = 19;
+                    break;
+                case 3:
+                    $poin = 18;
+                    break;
+                case 4:
+                    $poin = 17;
+                    break;
+                case 5:
+                    $poin = 16;
+                    break;
+                default:
+                    $poin = 0;
+                    break;
             }
             break;
 
         case "Provinsi":
             switch ($peringkat) {
-                case 1: $poin = 15; break;
-                case 2: $poin = 14; break;
-                case 3: $poin = 13; break;
-                case 4: $poin = 12; break;
-                case 5: $poin = 11; break;
-                default: $poin = 0; break;
+                case 1:
+                    $poin = 15;
+                    break;
+                case 2:
+                    $poin = 14;
+                    break;
+                case 3:
+                    $poin = 13;
+                    break;
+                case 4:
+                    $poin = 12;
+                    break;
+                case 5:
+                    $poin = 11;
+                    break;
+                default:
+                    $poin = 0;
+                    break;
             }
             break;
 
         case "Kabupaten/Kota":
             switch ($peringkat) {
-                case 1: $poin = 10; break;
-                case 2: $poin = 9; break;
-                case 3: $poin = 8; break;
-                case 4: $poin = 7; break;
-                case 5: $poin = 6; break;
-                default: $poin = 0; break;
+                case 1:
+                    $poin = 10;
+                    break;
+                case 2:
+                    $poin = 9;
+                    break;
+                case 3:
+                    $poin = 8;
+                    break;
+                case 4:
+                    $poin = 7;
+                    break;
+                case 5:
+                    $poin = 6;
+                    break;
+                default:
+                    $poin = 0;
+                    break;
             }
             break;
 
@@ -112,9 +161,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         (?, ?, ?, ?, ?, ?, ?, ?, CONVERT(VARBINARY(MAX), ?), CONVERT(VARBINARY(MAX), ?), CONVERT(VARBINARY(MAX), ?), ?, ?, ?)
     ";
     $params = [
-        $data['peringkat'], $data['url'], $data['tanggalMulai'], $data['tanggalBerakhir'],
-        $data['tempatKompetisi'], $data['judulPrestasi'], $data['tingkatPrestasi'], $data['tipePrestasi'],
-        $data['fileSurat'], $data['fileSertifikat'], $data['fileKegiatan'], 'Valid', $data['dosenNip'], $poin
+        $data['peringkat'],
+        $data['url'],
+        $data['tanggalMulai'],
+        $data['tanggalBerakhir'],
+        $data['tempatKompetisi'],
+        $data['judulPrestasi'],
+        $data['tingkatPrestasi'],
+        $data['tipePrestasi'],
+        $data['fileSurat'],
+        $data['fileSertifikat'],
+        $data['fileKegiatan'],
+        'Valid',
+        $data['dosenNip'],
+        $poin
     ];
     $stmtPrestasi = sqlsrv_query($conn, $sqlInsert, $params);
     if ($stmtPrestasi === false) {
@@ -165,22 +225,29 @@ if ($stmtMahasiswa === false || !($mahasiswa = sqlsrv_fetch_array($stmtMahasiswa
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 </head>
 
+<style>
+    .required::after {
+        content: " *";
+        color: red;
+    }
+</style>
+
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Tambah Prestasi</h1>
         <form method="POST" enctype="multipart/form-data">
             <div class="mb-3">
-                <label for="namaMahasiswa" class="form-label">Nama Mahasiswa</label>
+                <label for="namaMahasiswa" class="form-label required">Nama Mahasiswa</label>
                 <input type="text" class="form-control" id="namaMahasiswa" value="<?= htmlspecialchars($mahasiswa['Nama']); ?>" readonly>
             </div>
 
             <div class="mb-3">
-                <label for="judulPrestasi" class="form-label">Judul Prestasi</label>
+                <label for="judulPrestasi" class="form-label required">Judul Prestasi</label>
                 <input type="text" class="form-control" id="judulPrestasi" name="judulPrestasi" required>
             </div>
 
             <div class="mb-3">
-                <label for="tingkatPrestasi" class="form-label">Tingkat Prestasi</label>
+                <label for="tingkatPrestasi" class="form-label required">Tingkat Prestasi</label>
                 <select class="form-select" name="tingkatPrestasi" id="tingkatPrestasi" required>
                     <option selected disabled>Pilih Tingkat Kompetisi</option>
                     <option value="Kabupaten/Kota">Kabupaten/Kota</option>
@@ -191,31 +258,31 @@ if ($stmtMahasiswa === false || !($mahasiswa = sqlsrv_fetch_array($stmtMahasiswa
             </div>
 
             <div class="mb-3">
-                <label for="tipePrestasi" class="form-label">Tipe Prestasi</label>
+                <label for="tipePrestasi" class="form-label required">Tipe Prestasi</label>
                 <select class="form-select" name="tipePrestasi" id="tipePrestasi" required>
-                <option selected disabled>Pilih Jenis Prestasi</option>
-                <option value="Individu">Individu</option>
-                <option value="Kelompok">Kelompok</option>
-            </select>
+                    <option selected disabled>Pilih Jenis Prestasi</option>
+                    <option value="Individu">Individu</option>
+                    <option value="Kelompok">Kelompok</option>
+                </select>
             </div>
 
             <div class="mb-3">
-                <label for="tempatKompetisi" class="form-label">Tempat Kompetisi</label>
+                <label for="tempatKompetisi" class="form-label required">Tempat Kompetisi</label>
                 <input type="text" class="form-control" id="tempatKompetisi" name="tempatKompetisi" required>
             </div>
 
             <div class="mb-3">
-                <label for="tanggalMulai" class="form-label">Tanggal Mulai</label>
+                <label for="tanggalMulai" class="form-label required">Tanggal Mulai</label>
                 <input type="date" class="form-control" id="tanggalMulai" name="tanggalMulai" required>
             </div>
 
             <div class="mb-3">
-                <label for="tanggalBerakhir" class="form-label">Tanggal Berakhir</label>
+                <label for="tanggalBerakhir" class="form-label required">Tanggal Berakhir</label>
                 <input type="date" class="form-control" id="tanggalBerakhir" name="tanggalBerakhir" required>
             </div>
 
             <div class="mb-3">
-                <label for="peringkat" class="form-label">Peringkat</label>
+                <label for="peringkat" class="form-label required">Peringkat</label>
                 <input type="number" class="form-control" id="peringkat" name="peringkat" required>
             </div>
 
@@ -225,7 +292,7 @@ if ($stmtMahasiswa === false || !($mahasiswa = sqlsrv_fetch_array($stmtMahasiswa
             </div>
 
             <div class="mb-3">
-                <label for="dosenNip" class="form-label">Dosen Pembimbing</label>
+                <label for="dosenNip" class="form-label required">Dosen Pembimbing</label>
                 <select class="form-select" id="dosenNip" name="dosenNip" required>
                     <option value="" disabled selected>Pilih Dosen Pembimbing</option>
                     <?php foreach ($dosenList as $dosen): ?>
@@ -237,17 +304,17 @@ if ($stmtMahasiswa === false || !($mahasiswa = sqlsrv_fetch_array($stmtMahasiswa
             </div>
 
             <div class="mb-3">
-                <label for="fileSurat" class="form-label">File Surat</label>
+                <label for="fileSurat" class="form-label required">File Surat</label>
                 <input type="file" class="form-control" id="fileSurat" name="fileSurat" accept="application/pdf" required>
             </div>
 
             <div class="mb-3">
-                <label for="fileSertifikat" class="form-label">File Sertifikat</label>
+                <label for="fileSertifikat" class="form-label required">File Sertifikat</label>
                 <input type="file" class="form-control" id="fileSertifikat" name="fileSertifikat" accept="application/pdf" required>
             </div>
 
             <div class="mb-3">
-                <label for="fileKegiatan" class="form-label">File Kegiatan</label>
+                <label for="fileKegiatan" class="form-label required">File Kegiatan</label>
                 <input type="file" class="form-control" id="fileKegiatan" name="fileKegiatan" accept="application/pdf" required>
             </div>
 
@@ -255,5 +322,6 @@ if ($stmtMahasiswa === false || !($mahasiswa = sqlsrv_fetch_array($stmtMahasiswa
         </form>
     </div>
 </body>
+
 
 </html>
