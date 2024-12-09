@@ -62,14 +62,27 @@ function hitungPoin($tingkat, $peringkat) {
 }
 // Query untuk mengambil data ranking mahasiswa
 $sql = "
+        SELECT 
+        M.Nim AS NimMahasiswa,
+        P.TingkatPrestasi,
+        P.Peringkat
+    FROM 
+        Mahasiswa M
+    JOIN 
+        PrestasiMahasiswa PM ON M.Nim = PM.Nim
+    JOIN 
+        Prestasi P ON PM.PrestasiId = P.PrestasiId
+    WHERE 
+        P.Status = 'Valid';
+";
+
+$sqlTampilRank = "
     SELECT 
         ROW_NUMBER() OVER (ORDER BY SUM(P.Poin) DESC) AS Peringkat,
         M.Nama AS NamaMahasiswa,
         M.Nim AS NimMahasiswa,
         COUNT(*) AS JumlahLombaDiikuti,
-        SUM(P.Poin) AS TotalPoin,
-        P.TingkatPrestasi,
-        P.Peringkat as PeringkatPrestasi
+        SUM(P.Poin) AS TotalPoin
     FROM 
         Mahasiswa M
     JOIN 
@@ -93,10 +106,10 @@ if ($stmt === false) {
     die(print_r(sqlsrv_errors(), true));
 }
 
-// Simpan TotalPoin ke kolom Poin dalam tabel Prestasi
+// Simpan Poin dalam tabel Prestasi
 while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
     $nim = $row['NimMahasiswa'];
-    $poin= hitungPoin($row['TingkatPrestasi'], $row['PeringkatPrestasi']);
+    $poin= hitungPoin($row['TingkatPrestasi'], $row['Peringkat']);
 
     // Update Poin di tabel Prestasi berdasarkan NimMahasiswa dan PrestasiId
     $updateSql = "
@@ -116,7 +129,7 @@ while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
 }
 
 // Jalankan query untuk menampilkan data setelah update
-$stmt = sqlsrv_query($conn, $sql);  // Jalankan kembali query untuk menampilkan data terbaru
+$stmt = sqlsrv_query($conn, $sqlTampilRank);  // Jalankan kembali query untuk menampilkan data terbaru
 if ($stmt === false) {
     die(print_r(sqlsrv_errors(), true));
 }
