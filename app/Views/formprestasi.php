@@ -56,7 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Mendapatkan data dari form
             $data = [
                 'nim' => $_POST['nim'],
-                'programStudi' => $_POST['programStudi'],
                 'tingkatKompetisi' => $_POST['tingkatKompetisi'],
                 'jenisPrestasi' => $_POST['jenisPrestasi'],
                 'namaMahasiswa' => $_POST['namaMahasiswa'],
@@ -85,17 +84,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <p>Data Prestasi Mahasiswa</p>
     <hr class="line">
     <form method="POST" enctype="multipart/form-data">
-        <!-- Program Studi -->
-        <div class="mb-3">
-            <label for="programStudi" class="form-label">
-                Program Studi <span class="text-danger">*</span>
-            </label>
-            <select class="form-select" name="programStudi" id="programStudi" required>
-                <option selected disabled>Pilih Program Studi</option>
-                <option value="SIB">SIB</option>
-                <option value="TI">TI</option>
-            </select>
-        </div>
 
         <div class="row">
             <!-- Tingkat Kompetisi -->
