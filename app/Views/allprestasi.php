@@ -2,6 +2,7 @@
 // Menggunakan koneksi yang telah didefinisikan
 include '../config/koneksi.php'; // Pastikan file koneksi Anda bernama "koneksi.php"
 
+
 // Query untuk mengambil semua prestasi yang telah tervalidasi
 $sql = "
     SELECT 
@@ -93,6 +94,10 @@ if ($stmt === false) {
                     <?php endwhile; ?>
                 </tbody>
             </table>
+            <div class="mt-4 text-end">
+                <button class="btn btn-success" onclick="window.open('../app/Views/allprestasi-excel.php')">Export Excel</button>
+            </div>
+
         </div>
 
 
