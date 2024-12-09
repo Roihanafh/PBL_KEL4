@@ -13,6 +13,58 @@ while ($row = sqlsrv_fetch_array($stmtDosen, SQLSRV_FETCH_ASSOC)) {
     $dosenList[] = $row;
 }
 
+
+// Fungsi untuk menghitung poin
+function hitungPoin($tingkat, $peringkat) {
+    $poin = 0;
+    switch ($tingkat) {
+        case "Internasional":
+            $poin = match ($peringkat) {
+                1 => 26,
+                2 => 25,
+                3 => 24,
+                4 => 23,
+                5 => 22,
+                default => 0 // Tidak ada poin jika peringkat lebih dari 5
+            };
+            break;
+        case "Nasional":
+            $poin = match ($peringkat) {
+                1 => 20,
+                2 => 19,
+                3 => 18,
+                4 => 17,
+                5 => 16,
+                default => 0
+            };
+            break;
+        case "Provinsi":
+            $poin = match ($peringkat) {
+                1 => 15,
+                2 => 14,
+                3 => 13,
+                4 => 12,
+                5 => 11,
+                default => 0
+            };
+            break;
+        case "Kabupaten/Kota":
+            $poin = match ($peringkat) {
+                1 => 10,
+                2 => 9,
+                3 => 8,
+                4 => 7,
+                5 => 6,
+                default => 0
+            };
+            break;
+        default:
+            $poin = 0; // Jika tingkat tidak valid
+    }
+    return $poin;
+}
+
+
 // Jika form disubmit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validasi file upload
@@ -37,159 +89,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'fileKegiatan' => file_get_contents($_FILES['fileKegiatan']['tmp_name'])
     ];
 
+    // Hitung poin berdasarkan tingkat dan peringkat
+    $poin = hitungPoin($data['tingkatPrestasi'], $data['peringkat']);
+
     // Query untuk menyimpan data prestasi
     $sqlInsert = "
         INSERT INTO Prestasi 
-        (Peringkat, Url, TanggalMulai, TanggalBerakhir, TempatKompetisi, JudulPrestasi, TingkatPrestasi, TipePrestasi, BuktiSuratTugas, BuktiSertif, FotoKegiatan, Status, DosenNip)
+        (Peringkat, Url, TanggalMulai, TanggalBerakhir, TempatKompetisi, JudulPrestasi, TingkatPrestasi, TipePrestasi, BuktiSuratTugas, BuktiSertif, FotoKegiatan, Status, DosenNip, Poin)
         OUTPUT INSERTED.PrestasiId
         VALUES 
-        (?, ?, ?, ?, ?, ?, ?, ?, CONVERT(VARBINARY(MAX), ?), CONVERT(VARBINARY(MAX), ?), CONVERT(VARBINARY(MAX), ?), ?,?)
+        (?, ?, ?, ?, ?, ?, ?, ?, CONVERT(VARBINARY(MAX), ?), CONVERT(VARBINARY(MAX), ?), CONVERT(VARBINARY(MAX), ?), ?, ?, ?)
     ";
     $params = [
         $data['peringkat'], $data['url'], $data['tanggalMulai'], $data['tanggalBerakhir'],
         $data['tempatKompetisi'], $data['judulPrestasi'], $data['tingkatPrestasi'], $data['tipePrestasi'],
-        $data['fileSurat'], $data['fileSertifikat'], $data['fileKegiatan'], 'Valid', $data['dosenNip']
+        $data['fileSurat'], $data['fileSertifikat'], $data['fileKegiatan'], 'Valid', $data['dosenNip'], $poin
     ];
     $stmtPrestasi = sqlsrv_query($conn, $sqlInsert, $params);
     if ($stmtPrestasi === false) {
         echo 'Error inserting data into Prestasi: ' . print_r(sqlsrv_errors(), true);
         exit;  // Berhenti jika terjadi error pada insert Prestasi
     }
-    if ($stmtPrestasi === false) {
-        echo 'Error inserting data into Prestasi: ' . print_r(sqlsrv_errors(), true);
+
+    $rowPrestasiId = sqlsrv_fetch_array($stmtPrestasi, SQLSRV_FETCH_ASSOC);
+    if (!$rowPrestasiId || !isset($rowPrestasiId['PrestasiId'])) {
+        echo 'Failed to retrieve PrestasiId. Please check your query.';
     } else {
-        // Ambil id_prestasi yang baru saja disisipkan dari hasil OUTPUT
-        $rowPrestasiId = sqlsrv_fetch_array($stmtPrestasi, SQLSRV_FETCH_ASSOC);
-    
-        if (!$rowPrestasiId || !isset($rowPrestasiId['PrestasiId'])) {
-            echo 'Failed to retrieve PrestasiId. Please check your query.';
+        $id_prestasi = $rowPrestasiId['PrestasiId'];
+        $queryMahasiswa = "INSERT INTO PrestasiMahasiswa (PrestasiId, Nim) VALUES (?, ?)";
+        $paramsMahasiswa = [$id_prestasi, $data['nim']];
+        $stmtMahasiswa = sqlsrv_query($conn, $queryMahasiswa, $paramsMahasiswa);
+
+        if ($stmtMahasiswa === false) {
+            echo 'Error inserting data into PrestasiMahasiswa: ' . print_r(sqlsrv_errors(), true);
         } else {
-            $id_prestasi = $rowPrestasiId['PrestasiId'];
-    
-            // Query untuk menyisipkan ke tabel PrestasiMahasiswa
-            $queryMahasiswa = "
-                INSERT INTO PrestasiMahasiswa (PrestasiId, Nim) VALUES (?, ?)
-            ";
-            $paramsMahasiswa = array($id_prestasi, $data['nim']);
-    
-            // Eksekusi query untuk tabel PrestasiMahasiswa
-            $stmtMahasiswa = sqlsrv_query($conn, $queryMahasiswa, $paramsMahasiswa);
-    
-            if ($stmtMahasiswa === false) {
-                echo 'Error inserting data into PrestasiMahasiswa: ' . print_r(sqlsrv_errors(), true);
-            } else {
-                echo 'Prestasi mahasiswa berhasil disimpan.';
-                
-            }
+            echo "<script>alert('Prestasi berhasil ditambahkan!'); window.location.href = 'http://localhost/PBL_KEL4/public/indexadmin.php?page=dataallmhs';</script>";
+            exit;
         }
     }
-    // Query untuk mengambil data ranking mahasiswa
-    $sql = "
-    SELECT 
-        ROW_NUMBER() OVER (ORDER BY SUM(
-            CASE 
-                WHEN P.TingkatPrestasi = 'Kabupaten/Kota' THEN 
-                    CASE 
-                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 6 - P.Peringkat
-                        ELSE 0 
-                    END
-                WHEN P.TingkatPrestasi = 'Provinsi' THEN 
-                    CASE 
-                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 11 - P.Peringkat
-                        ELSE 0 
-                    END
-                WHEN P.TingkatPrestasi = 'Nasional' THEN 
-                    CASE 
-                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 16 - P.Peringkat
-                        ELSE 0 
-                    END
-                WHEN P.TingkatPrestasi = 'Internasional' THEN 
-                    CASE 
-                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 31 - P.Peringkat
-                        ELSE 0 
-                    END
-                ELSE 0
-            END
-        ) DESC) AS Peringkat,
-        M.Nama AS NamaMahasiswa,
-        M.Nim AS NimMahasiswa,
-        COUNT(*) AS JumlahLombaDiikuti,
-        SUM(
-            CASE 
-                WHEN P.TingkatPrestasi = 'Kabupaten/Kota' THEN 
-                    CASE 
-                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 6 - P.Peringkat
-                        ELSE 0 
-                    END
-                WHEN P.TingkatPrestasi = 'Provinsi' THEN 
-                    CASE 
-                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 11 - P.Peringkat
-                        ELSE 0 
-                    END
-                WHEN P.TingkatPrestasi = 'Nasional' THEN 
-                    CASE 
-                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 16 - P.Peringkat
-                        ELSE 0 
-                    END
-                WHEN P.TingkatPrestasi = 'Internasional' THEN 
-                    CASE 
-                        WHEN P.Peringkat BETWEEN 1 AND 5 THEN 31 - P.Peringkat
-                        ELSE 0 
-                    END
-                ELSE 0
-            END
-        ) AS TotalPoin
-    FROM 
-        Mahasiswa M
-    JOIN 
-        PrestasiMahasiswa PM ON M.Nim = PM.Nim  -- Menghubungkan Mahasiswa dan Prestasi melalui PrestasiMahasiswa
-    JOIN 
-        Prestasi P ON PM.PrestasiId = P.PrestasiId  -- Menghubungkan PrestasiMahasiswa dengan Prestasi
-    WHERE 
-        P.Status = 'Valid'  -- Hanya mengambil Prestasi yang statusnya 'Valid'
-    GROUP BY 
-        M.Nama, M.Nim
-    ORDER BY    
-        TotalPoin DESC;
-    ";
-
-    // Eksekusi query untuk mendapatkan data
-    $stmt = sqlsrv_query($conn, $sql);
-
-    // Cek jika query gagal
-    if ($stmt === false) {
-    die(print_r(sqlsrv_errors(), true));
-    }
-
-    // Simpan TotalPoin ke kolom Poin dalam tabel Prestasi
-    while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
-    $nim = $row['NimMahasiswa'];
-    $totalPoin = $row['TotalPoin'];
-
-    // Update Poin di tabel Prestasi berdasarkan NimMahasiswa dan PrestasiId
-    $updateSql = "
-        UPDATE P SET 
-            P.Poin = ?
-        FROM Prestasi P
-        JOIN PrestasiMahasiswa PM ON P.PrestasiId = PM.PrestasiId
-        WHERE PM.Nim = ? AND P.Status = 'Valid';
-    ";
-
-    $params = [$totalPoin, $nim];
-    $updateStmt = sqlsrv_query($conn, $updateSql, $params);
-
-    if ($updateStmt === false) {
-        die(print_r(sqlsrv_errors(), true));
-    }
-    }
-
-    // Jalankan query untuk menampilkan data setelah update
-    $stmt = sqlsrv_query($conn, $sql);  // Jalankan kembali query untuk menampilkan data terbaru
-    if ($stmt === false) {
-    die(print_r(sqlsrv_errors(), true));
-    }
-    echo "<script>alert('Prestasi berhasil ditambahkan!'); window.location.href = 'http://localhost/PBL_KEL4/public/indexadmin.php?page=dataallmhs';</script>";
-    exit;
 }
 
 // Ambil data mahasiswa berdasarkan NIM yang diterima melalui GET
@@ -205,6 +142,7 @@ if ($stmtMahasiswa === false || !($mahasiswa = sqlsrv_fetch_array($stmtMahasiswa
     die("Data mahasiswa tidak ditemukan.");
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="id">
