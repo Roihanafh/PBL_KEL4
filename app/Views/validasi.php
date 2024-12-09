@@ -41,7 +41,7 @@ if ($stmt === false) {
     <!-- Konten PHP dan tabel Anda -->
     <div class="container mt-4">
         <div class="subjudul-wrapper mt-5">
-            <h1 class="subjudul">Prestasi Mahasiswa yang Belum Divalidasi</h1>
+            <h1 class="subjudul">Prestasi Mahasiswa Yang Belum Divalidasi Dan Tidak Valid</h1>
         </div>
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
@@ -77,12 +77,13 @@ if ($stmt === false) {
                                 </div>
                             </td>
                             <td class="text-center p-3">
-                                <a href="../app/Views/detailPrestasi.php?prestasi_id=<?= urlencode($row['PrestasiId']); ?>" class="btn btn-success">
-                                    Detail
-                                </a>
-
-
-                            </td>
+    <a href="../app/Views/detailPrestasi.php?prestasi_id=<?= urlencode($row['PrestasiId']); ?>" class="btn btn-success">
+        Detail
+    </a>
+    <a href="editPrestasi.php?prestasi_id=<?= urlencode($row['PrestasiId']); ?>" class="btn btn-warning">
+        Edit
+    </a>
+</td>
 
                         </tr>
                     <?php endwhile; ?>
