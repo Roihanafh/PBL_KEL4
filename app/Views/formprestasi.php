@@ -136,30 +136,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Judul Kompetisi -->
         <div class="mb-3">
-            <label for="judulKompetisi" class="form-label">Judul Kompetisi</label>
+            <label for="judulKompetisi" class="form-label">Judul Kompetisi<span class="text-danger">*</span></label>
             <input type="text" class="form-control" name="judulKompetisi" id="judulKompetisi" placeholder="Judul Kompetisi" required>
         </div>
 
         <!-- Tempat Kompetisi -->
         <div class="mb-3">
-            <label for="tempatKompetisi" class="form-label">Tempat Kompetisi</label>
+            <label for="tempatKompetisi" class="form-label">Tempat Kompetisi<span class="text-danger">*</span></label>
             <input type="text" class="form-control" name="tempatKompetisi" id="tempatKompetisi" placeholder="Tempat Kompetisi" required>
         </div>
 
         <!-- URL Kompetisi -->
         <div class="mb-3">
-            <label for="urlKompetisi" class="form-label">URL Kompetisi</label>
+            <label for="urlKompetisi" class="form-label">URL Kompetisi<span class="text-danger">*</span></label>
             <input type="url" class="form-control" name="urlKompetisi" id="urlKompetisi" placeholder="URL Kompetisi" required>
         </div>
 
         <!-- Tanggal -->
         <div class="row">
             <div class="col-md-6 mb-3">
-                <label for="tanggalMulai" class="form-label">Tanggal Mulai</label>
+                <label for="tanggalMulai" class="form-label">Tanggal Mulai<span class="text-danger">*</span></label>
                 <input type="date" class="form-control" name="tanggalMulai" id="tanggalMulai" required>
             </div>
             <div class="col-md-6 mb-3">
-                <label for="tanggalBerakhir" class="form-label">Tanggal Berakhir</label>
+                <label for="tanggalBerakhir" class="form-label">Tanggal Berakhir<span class="text-danger">*</span></label>
                 <input type="date" class="form-control" name="tanggalBerakhir" id="tanggalBerakhir" required>
             </div>
         </div>
