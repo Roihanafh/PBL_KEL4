@@ -29,36 +29,60 @@ $dataDosen = $dosenController->getDosenData();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Pastikan semua form data diterima dan ditangani dengan benar
     if (isset($_FILES['fileSurat'], $_FILES['fileSertifikat'], $_FILES['fileKegiatan'])) {
-        // File uploads
-        $fileSuratContent = file_get_contents($_FILES['fileSurat']['tmp_name']);
-        $fileSertifikatContent = file_get_contents($_FILES['fileSertifikat']['tmp_name']);
-        $fileKegiatanContent = file_get_contents($_FILES['fileKegiatan']['tmp_name']);
-        // Mendapatkan data dari form
-        $data = [
-            'nim' => $_POST['nim'],
-            'programStudi' => $_POST['programStudi'],
-            'tingkatKompetisi' => $_POST['tingkatKompetisi'],
-            'jenisPrestasi' => $_POST['jenisPrestasi'],
-            'namaMahasiswa' => $_POST['namaMahasiswa'],
-            'judulKompetisi' => $_POST['judulKompetisi'],
-            'tempatKompetisi' => $_POST['tempatKompetisi'],
-            'urlKompetisi' => $_POST['urlKompetisi'],
-            'tanggalMulai' => $_POST['tanggalMulai'],
-            'tanggalBerakhir' => $_POST['tanggalBerakhir'],
-            'peringkatKompetisi' => $_POST['peringkatKompetisi'],
-            'namaPembimbing' => $_POST['namaPembimbing'],
-            'fileSurat' => $fileSuratContent,
-            'fileSertifikat' => $fileSertifikatContent,
-            'fileKegiatan' => $fileKegiatanContent
-        ];
+        // Mendapatkan informasi file
+        $fileSurat = $_FILES['fileSurat'];
+        $fileSertifikat = $_FILES['fileSertifikat'];
+        $fileKegiatan = $_FILES['fileKegiatan'];
 
-        // Menyimpan data prestasi
-        $prestasiController->addPrestasi($conn, $data);
+        // Tentukan batas ukuran file (2MB)
+        $maxFileSize = 2 * 1024 * 1024; // 2MB dalam byte
 
-        $prestasiData = $prestasiController->showRiwayat($nim);
+        // Periksa apakah file berformat PDF dan ukurannya tidak lebih dari 2MB
+        $allowedMimeType = 'application/pdf';
+        
+        // Fungsi untuk memeriksa format dan ukuran file
+        function validateFile($file) {
+            global $maxFileSize, $allowedMimeType;
+            return $file['type'] === $allowedMimeType && $file['size'] <= $maxFileSize;
+        }
 
-        require_once '../app/Views/riwayat.php';
-        exit(); // Jangan lupa untuk mengakhiri eksekusi script setelah redirect
+        // Validasi semua file
+        if (validateFile($fileSurat) && validateFile($fileSertifikat) && validateFile($fileKegiatan)) {
+            // File uploads
+            $fileSuratContent = file_get_contents($fileSurat['tmp_name']);
+            $fileSertifikatContent = file_get_contents($fileSertifikat['tmp_name']);
+            $fileKegiatanContent = file_get_contents($fileKegiatan['tmp_name']);
+
+            // Mendapatkan data dari form
+            $data = [
+                'nim' => $_POST['nim'],
+                'programStudi' => $_POST['programStudi'],
+                'tingkatKompetisi' => $_POST['tingkatKompetisi'],
+                'jenisPrestasi' => $_POST['jenisPrestasi'],
+                'namaMahasiswa' => $_POST['namaMahasiswa'],
+                'judulKompetisi' => $_POST['judulKompetisi'],
+                'tempatKompetisi' => $_POST['tempatKompetisi'],
+                'urlKompetisi' => $_POST['urlKompetisi'],
+                'tanggalMulai' => $_POST['tanggalMulai'],
+                'tanggalBerakhir' => $_POST['tanggalBerakhir'],
+                'peringkatKompetisi' => $_POST['peringkatKompetisi'],
+                'namaPembimbing' => $_POST['namaPembimbing'],
+                'fileSurat' => $fileSuratContent,
+                'fileSertifikat' => $fileSertifikatContent,
+                'fileKegiatan' => $fileKegiatanContent
+            ];
+
+            // Menyimpan data prestasi
+            $prestasiController->addPrestasi($conn, $data);
+
+            $prestasiData = $prestasiController->showRiwayat($nim);
+
+            require_once '../app/Views/riwayat.php';
+            exit(); // Jangan lupa untuk mengakhiri eksekusi script setelah redirect
+        } else {
+            // Jika file tidak valid
+            $errorMessage = "Pastikan semua file berformat PDF dan tidak lebih dari 2MB.";
+        }
     }
 }
 
@@ -225,4 +249,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     function redirectToFormPrestasi() {
         window.location.href = 'riwayat.php';
     }
+
+    const maxFileSize = 2 * 1024 * 1024; // 2MB in bytes
+
+function validateFileSizeAndType(fileInput) {
+    const file = fileInput.files[0];
+    const errorElement = document.getElementById(fileInput.id + 'Error');
+    
+    if (file) {
+        // Check if file is PDF and size is within the limit
+        if (file.type !== 'application/pdf') {
+            errorElement.textContent = 'File harus berformat PDF.';
+            errorElement.classList.remove('d-none');
+            fileInput.value = ''; // Reset the file input if type is not PDF
+            return false;
+        } else if (file.size > maxFileSize) {
+            errorElement.textContent = 'Ukuran file harus maksimal 2MB.';
+            errorElement.classList.remove('d-none');
+            fileInput.value = ''; // Reset the file input if file size exceeds limit
+            return false;
+        } else {
+            errorElement.classList.add('d-none');
+            return true;
+        }
+    }
+    return true;
+}
+
+// Event listeners for file validation
+document.getElementById('fileSurat').addEventListener('change', function () {
+    validateFileSizeAndType(this);
+});
+document.getElementById('fileSertifikat').addEventListener('change', function () {
+    validateFileSizeAndType(this);
+});
+document.getElementById('fileKegiatan').addEventListener('change', function () {
+    validateFileSizeAndType(this);
+});
+
 </script>
