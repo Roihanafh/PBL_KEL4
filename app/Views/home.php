@@ -62,8 +62,9 @@ function hitungPoin($tingkat, $peringkat) {
 }
 // Query untuk mengambil data ranking mahasiswa
 $sql = "
-        SELECT 
+    SELECT 
         M.Nim AS NimMahasiswa,
+        P.PrestasiId,
         P.TingkatPrestasi,
         P.Peringkat
     FROM 
@@ -75,6 +76,7 @@ $sql = "
     WHERE 
         P.Status = 'Valid';
 ";
+
 
 $sqlTampilRank = "
     SELECT 
@@ -110,6 +112,7 @@ if ($stmt === false) {
 while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
     $nim = $row['NimMahasiswa'];
     $poin= hitungPoin($row['TingkatPrestasi'], $row['Peringkat']);
+    $prestasiId = $row['PrestasiId'];
 
     // Update Poin di tabel Prestasi berdasarkan NimMahasiswa dan PrestasiId
     $updateSql = "
@@ -117,10 +120,10 @@ while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
             P.Poin = ?
         FROM Prestasi P
         JOIN PrestasiMahasiswa PM ON P.PrestasiId = PM.PrestasiId
-        WHERE PM.Nim = ? AND P.Status = 'Valid';
+        WHERE PM.Nim = ? AND P.Status = 'Valid' AND P.PrestasiId = ?;
     ";
 
-    $params = [$poin, $nim];
+    $params = [$poin, $nim, $prestasiId];
     $updateStmt = sqlsrv_query($conn, $updateSql, $params);
 
     if ($updateStmt === false) {
