@@ -80,9 +80,6 @@ if ($stmt === false) {
     <a href="../app/Views/detailPrestasi.php?prestasi_id=<?= urlencode($row['PrestasiId']); ?>" class="btn btn-success">
         Detail
     </a>
-    <a href="editPrestasi.php?prestasi_id=<?= urlencode($row['PrestasiId']); ?>" class="btn btn-warning">
-        Edit
-    </a>
 </td>
 
                         </tr>
