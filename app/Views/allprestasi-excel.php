@@ -17,7 +17,8 @@ $sql = "
     p.TanggalMulai,
     p.TanggalBerakhir,
     m.Nama AS NamaMahasiswa,
-    d.Nama AS NamaDosen
+    d.Nama AS NamaDosen,
+    p.Poin -- Pastikan kolom ini ada di database Anda
 FROM 
     Prestasi p
 JOIN PrestasiMahasiswa pm ON p.PrestasiId = pm.PrestasiId
@@ -27,7 +28,6 @@ WHERE
     p.Status = 'Valid'
 ORDER BY 
     p.TanggalMulai;
-
 ";
 
 // Menjalankan query
@@ -67,10 +67,11 @@ if ($stmt === false) {
                         <th style="border: 1px solid #000; padding: 8px;">Tanggal Mulai</th>
                         <th style="border: 1px solid #000; padding: 8px;">Tanggal Berakhir</th>
                         <th style="border: 1px solid #000; padding: 8px;">Nama Dosen</th>
+                        <th style="border: 1px solid #000; padding: 8px;">Poin</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
+                <?php
                     $no = 1;
                     while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
                         echo "<tr>";
@@ -84,6 +85,7 @@ if ($stmt === false) {
                         echo "<td style='border: 1px solid #000; padding: 8px; text-align: left;'>" . htmlspecialchars($row['TanggalMulai']->format('Y-m-d')) . "</td>";
                         echo "<td style='border: 1px solid #000; padding: 8px; text-align: left;'>" . htmlspecialchars($row['TanggalBerakhir']->format('Y-m-d')) . "</td>";
                         echo "<td style='border: 1px solid #000; padding: 8px; text-align: left;'>" . htmlspecialchars($row['NamaDosen']) . "</td>";
+                        echo "<td style='border: 1px solid #000; padding: 8px; text-align: left;'>" . htmlspecialchars($row['Poin']) . "</td>";
                         echo "</tr>";
                     }
                     ?>

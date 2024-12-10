@@ -171,37 +171,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <!-- File Bukti -->
             <div class="mb-3">
-                <label class="form-label">Bukti Sertifikat</label>
-                <div>
-                    <?php if ($data['BuktiSertif']): ?>
-                        <a href="data:application/octet-stream;base64,<?= base64_encode($data['BuktiSertif']); ?>" download="bukti_sertif_<?= $data['PrestasiId']; ?>.pdf" class="btn btn-primary btn-sm">Download</a>
-                    <?php else: ?>
-                        <span class="text-muted">Tidak tersedia</span>
-                    <?php endif; ?>
-                </div>
+    <label class="form-label">Bukti Sertifikat</label>
+    <div>
+        <?php if ($data['BuktiSertif']): ?>
+            <!-- Tombol Download -->
+            <a href="data:application/pdf;base64,<?= base64_encode($data['BuktiSertif']); ?>" 
+               download="bukti_sertif_<?= $data['PrestasiId']; ?>.pdf" 
+               class="btn btn-primary btn-sm">Download</a>
+            <!-- Pratinjau PDF -->
+            <div class="mt-2">
+                <iframe src="data:application/pdf;base64,<?= base64_encode($data['BuktiSertif']); ?>" 
+                        width="100%" 
+                        height="400px"></iframe>
             </div>
+        <?php else: ?>
+            <span class="text-muted">Tidak tersedia</span>
+        <?php endif; ?>
+    </div>
+</div>
 
-            <div class="mb-3">
-                <label class="form-label">Surat Tugas</label>
-                <div>
-                    <?php if ($data['BuktiSuratTugas']): ?>
-                        <a href="data:application/octet-stream;base64,<?= base64_encode($data['BuktiSuratTugas']); ?>" download="surat_tugas_<?= $data['PrestasiId']; ?>.pdf" class="btn btn-primary btn-sm">Download</a>
-                    <?php else: ?>
-                        <span class="text-muted">Tidak tersedia</span>
-                    <?php endif; ?>
-                </div>
+<div class="mb-3">
+    <label class="form-label">Surat Tugas</label>
+    <div>
+        <?php if ($data['BuktiSuratTugas']): ?>
+            <!-- Tombol Download -->
+            <a href="data:application/pdf;base64,<?= base64_encode($data['BuktiSuratTugas']); ?>" 
+               download="surat_tugas_<?= $data['PrestasiId']; ?>.pdf" 
+               class="btn btn-primary btn-sm">Download</a>
+            <!-- Pratinjau PDF -->
+            <div class="mt-2">
+                <iframe src="data:application/pdf;base64,<?= base64_encode($data['BuktiSuratTugas']); ?>" 
+                        width="100%" 
+                        height="400px"></iframe>
             </div>
+        <?php else: ?>
+            <span class="text-muted">Tidak tersedia</span>
+        <?php endif; ?>
+    </div>
+</div>
 
-            <div class="mb-3">
-                <label class="form-label">Foto Kegiatan</label>
-                <div>
-                    <?php if ($data['FotoKegiatan']): ?>
-                        <a href="data:application/octet-stream;base64,<?= base64_encode($data['FotoKegiatan']); ?>" download="foto_kegiatan_<?= $data['PrestasiId']; ?>.pdf" class="btn btn-primary btn-sm">Download</a>
-                    <?php else: ?>
-                        <span class="text-muted">Tidak tersedia</span>
-                    <?php endif; ?>
-                </div>
+<div class="mb-3">
+    <label class="form-label">Foto Kegiatan</label>
+    <div>
+        <?php if ($data['FotoKegiatan']): ?>
+            <!-- Tombol Download -->
+            <a href="data:application/pdf;base64,<?= base64_encode($data['FotoKegiatan']); ?>" 
+               download="foto_kegiatan_<?= $data['PrestasiId']; ?>.pdf" 
+               class="btn btn-primary btn-sm">Download</a>
+            <!-- Pratinjau PDF -->
+            <div class="mt-2">
+                <iframe src="data:application/pdf;base64,<?= base64_encode($data['FotoKegiatan']); ?>" 
+                        width="100%" 
+                        height="400px"></iframe>
             </div>
+        <?php else: ?>
+            <span class="text-muted">Tidak tersedia</span>
+        <?php endif; ?>
+    </div>
+</div>
 
             <div class="d-flex justify-content-end">
                 <a href="../../public/indexadmin.php?page=validasi" class="btn btn-secondary">Kembali</a>
