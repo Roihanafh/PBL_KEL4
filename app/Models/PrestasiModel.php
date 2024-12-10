@@ -109,8 +109,6 @@ class PrestasiModel extends Model {
                 }
             }
         }
-        // Menjalankan query menggunakan metode query yang sudah ada
-        return $this->query($sql, $params);
     }
     
     // Fungsi untuk menambahkan data Prestasi dan PrestasiMahasiswa
