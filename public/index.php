@@ -101,7 +101,7 @@ if ($stmt === false) {
             <div class="container">
     <div class="table-responsive">
         <table class="table table-hover table-striped table-bordered">
-            <thead class="table-primary">
+            <thead class="table">
                 <tr>
                     <th class="text-center">No</th>
                     <th>Nama</th>
