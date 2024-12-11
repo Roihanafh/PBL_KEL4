@@ -3,19 +3,18 @@ include '../config/koneksi.php'; // Pastikan file koneksi sudah benar
 
 // Query untuk mengambil data dari Prestasi dan Mahasiswa
 $sql = "
-    SELECT TOP 15
+    SELECT TOP 10
         m.Nama, 
-        p.JudulPrestasi, 
-        p.TanggalBerakhir, 
-        p.Peringkat, 
-        p.TingkatPrestasi, 
-        p.TipePrestasi
+        COUNT(p.PrestasiId) AS JumlahLomba,
+        SUM(p.Poin) AS JumlahPoin
     FROM 
         Prestasi p
     JOIN PrestasiMahasiswa pm ON p.PrestasiId = pm.PrestasiId
     JOIN Mahasiswa m ON pm.Nim = m.Nim
     WHERE 
-        p.Status = 'Valid';
+        p.Status = 'Valid'
+    GROUP BY m.Nama
+    ORDER BY JumlahPoin DESC;
 ";
 
 
@@ -100,52 +99,39 @@ if ($stmt === false) {
                 <h1>Prestasi <span class="ps2">yang Telah di Raih oleh</span> Mahasiswa</h1>
             </div>
             <div class="container">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama</th>
-                                <th>Judul Kompetisi</th>
-                                <th>Tanggal</th>
-                                <th>Peringkat</th>
-                                <th>Tingkat</th>
-                                <th>Tipe Prestasi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $no = 1;
-                            $rowCount = 0;
+    <div class="table-responsive">
+        <table class="table table-hover table-striped table-bordered">
+            <thead class="table-primary">
+                <tr>
+                    <th class="text-center">No</th>
+                    <th>Nama</th>
+                    <th>Jumlah Lomba Yang Diikuti</th>
+                    <th class="text-center">Jumlah Poin</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php
+                $no = 1;
 
-                            // Menampilkan hasil query
-                            while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+                // Menampilkan hasil query
+                while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+                    echo "<tr>
+                        <td class='text-center'>{$no}</td>
+                        <td>" . (!empty($row['Nama']) ? htmlspecialchars($row['Nama']) : '-') . "</td>
+                        <td class='text-center'>" . (!empty($row['JumlahLomba']) ? $row['JumlahLomba'] : '-') . "</td>
+                        <td class='text-center'>" . (!empty($row['JumlahPoin']) ? $row['JumlahPoin'] : '-') . "</td>
+                    </tr>";
+                    $no++;
+                }
+                            // Jika jumlah data kurang dari 10, tambahkan baris kosong dengan tanda '-'
+                            while ($no <= 10) {
                                 echo "<tr>
-                                <td>{$no}</td>
-                                <td>" . (!empty($row['Nama']) ? $row['Nama'] : '-') . "</td>
-                                <td>" . (!empty($row['JudulPrestasi']) ? $row['JudulPrestasi'] : '-') . "</td>
-                                <td>" . (!empty($row['TanggalBerakhir']) ? $row['TanggalBerakhir']->format('Y-m-d') : '-') . "</td>
-                                <td>" . (!empty($row['Peringkat']) ? $row['Peringkat'] : '-') . "</td>
-                                <td>" . (!empty($row['TingkatPrestasi']) ? $row['TingkatPrestasi'] : '-') . "</td>
-                                <td>" . (!empty($row['TipePrestasi']) ? $row['TipePrestasi'] : '-') . "</td>
+                                    <td class='text-center'>{$no}</td>
+                                    <td>-</td>
+                                    <td class='text-center'>-</td>
+                                    <td class='text-center'>-</td>
                                 </tr>";
                                 $no++;
-                                $rowCount++;
-                            }
-
-                            // Jika jumlah data kurang dari 15, tambahkan baris kosong dengan tanda '-'
-                            while ($rowCount < 15) {
-                                echo "<tr>
-                                <td>{$no}</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                </tr>";
-                                $no++;
-                                $rowCount++;
                             }
                             ?>
 
