@@ -59,7 +59,7 @@ require_once '../app/Views/riwayat.php';
                                         echo '<span class="text-warning">Menunggu Validasi</span>';
                                     } elseif ($status != 'Valid') {
                                         echo '<span class="text-danger">
-                                        Status Tidak Valid - 
+                                        Tidak Valid - 
                                         <a href="mailto:zilanzalilan18@gmail.com?subject=Status Tidak Valid&body=Halo admin, mohon bantuan terkait status prestasi saya. Berikut detail prestasi: Nama: ' . htmlspecialchars($row['Nama']) . ', NIM: ' . htmlspecialchars($row['Nim']) . '" class="btn btn-sm btn-danger">
                                         Hubungi Admin</a>
                                         </span>';
